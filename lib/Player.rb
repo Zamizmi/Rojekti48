@@ -8,9 +8,6 @@ class Player
     @score = 0
   end
 
-  def new
-  end
-
   def warp(x, y)
     @x, @y = x, y
   end
