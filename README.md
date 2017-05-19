@@ -1,6 +1,6 @@
-# Rojekti48
+# Rojekti48 - More Gun
 Game Jam repositorio.
 
-Testaan tässä kivasti tätä pushaamista :D
+Tarvittavat push-testit repositorioon liittyessä pyydetään suoritettavan test.md:n avulla.
 
-5/5 t. sami
+Pelin ideana on Free-for-all taisto eri fantasiarotuja (race :D ) edustavien pelaajien välillä. Kaikkien luotien tehdessä saman väärän vauriota, jää ratkaisuksi toisten kurmoottamiseen tulituksen tahdin kasvattaminen. Tämä päivittäminen hoituu robottien (robot) murskaamisella (destructible) lyijysateen alle. Ihan hyvä turnauspeli etten sanoisi.
