@@ -1,13 +1,20 @@
+require 'rubygems'
+require 'gosu'
+
+module Tiles
+  Grass = 0
+  Earth = 1
+end
+
 # Map class holds and draws tiles and gems.
 class Level
   attr_reader :width, :height, :gems
 
   def initialize(filename)
     # Load 60x60 tiles, 5px overlap in all four directions.
-    @tileset = Gosu::Image.load_tiles("assets/platform.png", 60, 60, :tileable => true)
+    @tileset = Gosu::Image.load_tiles('assets/platform.png', 20, 20, :tileable => true)
 
-    gem_img = Gosu::Image.new("assets/box.png")
-    @gems = []
+    box_img = Gosu::Image.new('assets/box.png')
 
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
@@ -20,7 +27,6 @@ class Level
           when '#'
             Tiles::Earth
           when 'x'
-            @gems.push(CollectibleGem.new(gem_img, x * 50 + 25, y * 50 + 25))
             nil
           else
             nil
@@ -38,15 +44,18 @@ class Level
         if tile
           # Draw the tile with an offset (tile images have some overlap)
           # Scrolling is implemented here just as in the game objects.
-          @tileset[tile].draw(x * 50 - 5, y * 50 - 5, 0)
+          @tileset[tile].draw(x * 20 - 5, y * 20 - 5, 0)
         end
       end
     end
-    @gems.each { |c| c.draw }
   end
 
   # Solid at a given pixel position?
   def solid?(x, y)
-    y < 0 || @tiles[x / 50][y / 50]
+    y < 0 || @tiles[x / 20][y / 20]
+  end
+
+  def getRandomStart()
+    #TODO
   end
 end

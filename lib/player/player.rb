@@ -1,13 +1,16 @@
+require 'rubygems'
+require 'gosu'
+
 class Player
   attr_reader :x, :y
 
-  def initialize(map, x, y)
+  def initialize(level, x, y)
     @x, @y = x, y
     @dir = :left
     @vy = 0 # Vertical velocity
-    @map = map
+    @level = level
     # Load all animation frames
-    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("media/cptn_ruby.png", 50, 50)
+    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("assets/player.png", 50, 50)
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
@@ -28,8 +31,8 @@ class Player
   # Could the object be placed at x + offs_x/y + offs_y without being stuck?
   def would_fit(offs_x, offs_y)
     # Check at the center/top and center/bottom for map collisions
-    not @map.solid?(@x + offs_x, @y + offs_y) and
-        not @map.solid?(@x + offs_x, @y + offs_y - 45)
+    not @level.solid?(@x + offs_x, @y + offs_y) and
+        not @level.solid?(@x + offs_x, @y + offs_y - 45)
   end
 
   def update(move_x)
@@ -67,15 +70,15 @@ class Player
   end
 
   def try_to_jump
-    if @map.solid?(@x, @y + 1)
+    if @level.solid?(@x, @y + 1)
       @vy = -20
     end
   end
 
-  def collect_gems(gems)
-    # Same as in the tutorial game.
-    gems.reject! do |c|
-      (c.x - @x).abs < 50 and (c.y - @y).abs < 50
-    end
-  end
+  # def collect_gems(gems)
+  #   # Same as in the tutorial game.
+  #   gems.reject! do |c|
+  #     (c.x - @x).abs < 50 and (c.y - @y).abs < 50
+  #   end
+  # end
 end

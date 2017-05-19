@@ -1,17 +1,22 @@
+require 'rubygems'
 require 'gosu'
 
-WIDTH, HEIGHT = 640, 480
+require './lib/levels/level'
+require './lib/player/player'
 
-class GameWindow(width=WIDTH, height=HEIGHT) < Gosu::Window
-  def initialize(*args)
+
+WIDTH, HEIGHT = 1075, 500
+
+class GameWindow < Gosu::Window
+  def initialize(width=WIDTH, height=HEIGHT)
 
     super width, height
 
     self.caption = "MoreGun"
 
-    @background = Gosu::Image.new("media/space.png", :tileable => true)
-    @level = Level.new("media/cptn_ruby_map.txt")
-    @character = Player.new(@level, 400, 100)
+    @background = Gosu::Image.new('assets/space.png', :tileable => true)
+    @level = Level.new('assets/example_map.txt')
+    @character = Player.new(@level, 200, 50)
     # The scrolling position is stored as top left corner of the screen.
     @camera_x = @camera_y = 0
   end
@@ -21,10 +26,10 @@ class GameWindow(width=WIDTH, height=HEIGHT) < Gosu::Window
     move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
     move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
     @character.update(move_x)
-    @character.collect_gems(@level.gems)
+    #@character.collect_gems(@level.gems)
     # Scrolling follows player
-    @camera_x = [[@character.x - WIDTH / 2, 0].max, @level.width * 50 - WIDTH].min
-    @camera_y = [[@character.y - HEIGHT / 2, 0].max, @level.height * 50 - HEIGHT].min
+    #@camera_x = [[@character.x - WIDTH / 2, 0].max, @level.width * 50 - WIDTH].min
+    #@camera_y = [[@character.y - HEIGHT / 2, 0].max, @level.height * 50 - HEIGHT].min
   end
 
   def draw
