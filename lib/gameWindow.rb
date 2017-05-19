@@ -17,6 +17,7 @@ class GameWindow < Gosu::Window
     @background = Gosu::Image.new('assets/space.png', :tileable => true)
     @level = Level.new('assets/example_map.txt')
     @character = Player.new(@level, 200, 50)
+    @level.addBox(250, 300)
     # The scrolling position is stored as top left corner of the screen.
     @camera_x = @camera_y = 0
   end

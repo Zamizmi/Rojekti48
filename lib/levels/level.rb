@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'gosu'
+require './lib/item/box'
 
 module Tiles
   Grass = 0
@@ -15,6 +16,8 @@ class Level
     @tileset = Gosu::Image.load_tiles('assets/platform.png', 20, 20, :tileable => true)
 
     box_img = Gosu::Image.new('assets/box.png')
+
+    @laatikot = []
 
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
@@ -35,6 +38,12 @@ class Level
     end
   end
 
+  def addBox(x, y)
+    laatikko = Box.new(x, y)
+    @laatikot.push(laatikko)
+
+  end
+
   def draw
     # Very primitive drawing function:
     # Draws all the tiles, some off-screen, some on-screen.
@@ -48,6 +57,7 @@ class Level
         end
       end
     end
+    @laatikot.each { |b| b.draw }
   end
 
   # Solid at a given pixel position?
