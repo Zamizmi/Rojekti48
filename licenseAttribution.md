@@ -12,4 +12,7 @@ The sprite used for the dwarf is from the "Delve Deeper Dwarves" collection by L
 #### Match end jingle
 The SFX used at the end of each match is from "Level up sound effects" by Bart Kelsey. Commissioned by Will Corwin for <https://opengameart.org>. The pack in its entirety can be found [here](https://opengameart.org/content/level-up-sound-effects). Supplied to us under [Creative Commons 3.0][1] license.
 
+#### Stage background
+The art at the back of the playing field was made by Zeyu Ren 任泽宇. The collection it is from and the art itself visible [here](https://opengameart.org/content/backgrounds-for-2d-platformers). Supplied to us under [Creative Commons 3.0][1] license.
+
 [1]: https://creativecommons.org/licenses/by/3.0/
