@@ -31,14 +31,18 @@ class Robot
     @cur_image.draw(@x + offs_x, @y - 31, 0, factor, 1.0)
   end
 
-  # Could the object be placed at x + offs_x/y + offs_y without being stuck?
-    def would_fit(offs_x, offs_y)
-      # Check at the center/top and center/bottom for map collisions
-      not @level.solid?(@x + offs_x, @y + offs_y) and
-          not @level.solid?(@x + offs_x, @y + offs_y - 25)
-    end
+# Could the object be placed at x + offs_x/y + offs_y without being stuck?
+  def would_fit(offs_x, offs_y)
+    # Check at the center/top and center/bottom for map collisions
+    not @level.solid?(@x + offs_x, @y + offs_y) and
+        not @level.solid?(@x + offs_x, @y + offs_y - 25)
+  end
 
-    def update
+  def is_inside?(x, y)
+    x < (@x + OFFS_X * SCALE * 0.5) and x > (@x - OFFS_X * SCALE * 0.5) and y < (@y + OFFS_Y * SCALE) and y > (@y - OFFS_Y * SCALE)
+  end
+
+  def update
 
       move_x = 2
     # Directional automated walking, horizontal movement
