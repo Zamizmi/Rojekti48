@@ -19,8 +19,6 @@ class GameWindow < Gosu::Window
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
     @level.addBox(250, 300)
-    # The scrolling position is stored as top left corner of the screen.
-    @camera_x = @camera_y = 0
   end
 
   def update
@@ -46,11 +44,9 @@ class GameWindow < Gosu::Window
 
   def draw
     @background.draw 0, 0, 0
-    Gosu.translate(-@camera_x, -@camera_y) do
-      @level.draw
-      @character.draw
-      @character2.draw
-    end
+    @level.draw
+    @character.draw
+    @character2.draw
   end
 
   def button_down(id)
