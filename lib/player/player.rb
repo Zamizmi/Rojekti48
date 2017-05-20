@@ -9,11 +9,11 @@ OFFS_Y = 65
 SHOOT_DELAY = 500
 
 class Player
-  attr_reader :x, :y
+  attr_reader :x, :y, :health, :boxes_collected
 
   def initialize(level, x, y, race)
     @last_shot = 0
-    @hp = 100
+    @health = 100
     @gun = Gun.new(x,y)
     @firespeed = 10
     @x, @y = x, y
@@ -21,6 +21,7 @@ class Player
     @vy = 0 # Vertical velocity
     @level = level
     @race = race
+    @boxes_collected = 0
     if(race == 1)
       char_file = './assets/player1.png'
     else
@@ -37,6 +38,7 @@ class Player
       boxes.reject! do |box|
         if Gosu.distance(@x, @y, box.x, box.y) < 20
           @firespeed += box.firespeed_increase
+          @boxes_collected +=1
           true
         else
           false
@@ -45,7 +47,7 @@ class Player
   end
 
   def take_damage (amount)
-    @hp - amount
+    @health -= amount
   end
 
   def draw
