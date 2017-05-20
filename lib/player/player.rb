@@ -5,6 +5,7 @@ class Player
   attr_reader :x, :y
 
   def initialize(level, x, y)
+    @hp = 100
     @x, @y = x, y
     @dir = :left
     @vy = 0 # Vertical velocity
@@ -14,6 +15,10 @@ class Player
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
+  end
+
+  def take_damage (amount)
+    @hp - amount
   end
 
   def draw
@@ -74,11 +79,4 @@ class Player
       @vy = -20
     end
   end
-
-  # def collect_gems(gems)
-  #   # Same as in the tutorial game.
-  #   gems.reject! do |c|
-  #     (c.x - @x).abs < 50 and (c.y - @y).abs < 50
-  #   end
-  # end
 end
