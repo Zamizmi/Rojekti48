@@ -1,4 +1,4 @@
-# Atrributions of licensed art (and sound) used in the game
+# Attributions of licensed art (and sound) used in the game
 
 #### Orc
 The sprite used for the orc is a **modified** "\[LPC] Goblin" by Steph "Redshrike" Challener as graphic artist and William.Thompsonj as contributor. Original art visible [here](https://opengameart.org/content/lpc-goblin). Supplied to us under [Creative Commons 3.0][1] license.
