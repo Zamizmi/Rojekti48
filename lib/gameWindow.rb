@@ -56,7 +56,7 @@ class GameWindow < Gosu::Window
     @character.draw
     @character2.draw
     @font.draw("Health: #{@character2.health} Boxes: #{@character2.boxes_collected}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
-    @font.draw("Health: #{@character.health} Boxes: #{@character.boxes_collected}", 900, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
+    @font.draw("Health: #{@character.health} Boxes: #{@character.boxes_collected}", 1180, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
   end
 
   def button_down(id)
