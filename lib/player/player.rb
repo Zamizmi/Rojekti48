@@ -1,11 +1,15 @@
 require 'rubygems'
 require 'gosu'
 
+require './lib/gun/gun'
+
 class Player
   attr_reader :x, :y
 
   def initialize(level, x, y)
     @hp = 100
+    @gun = Gun.new(x,y)
+    @firespeed = 2
     @x, @y = x, y
     @dir = :left
     @vy = 0 # Vertical velocity
@@ -15,6 +19,17 @@ class Player
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
+  end
+
+  def collect_boxes(boxes)
+      boxes.reject! do |box|
+        if Gosu.distance(@x, @y, box.x, box.y) < 20
+          @firespeed + box.firespeed_increase
+          true
+        else
+          false
+      end
+    end
   end
 
   def take_damage (amount)
