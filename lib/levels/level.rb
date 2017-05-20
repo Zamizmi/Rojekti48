@@ -6,6 +6,7 @@ require './lib/robot/robot'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
+BOT_DELAY = 800
 
 module Tiles
   Grass = 0
@@ -28,7 +29,7 @@ class Level
     @boxes = []
     @players =[]
     @robots = []
-
+    @last_bot = 0
     lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
     @width = lines[0].size
@@ -120,6 +121,23 @@ class Level
           false
       end
     end
+  end
+
+  def randomBot
+
+    if Gosu.milliseconds - @last_bot < BOT_DELAY
+      return
+    end
+    if robots.size>14
+    return
+    end
+    x=rand(30...1300)
+    y=rand(30...700)
+    unless solid?(x,y) || solid?(x+16,y) || solid?(x-16,y) || solid?(x,y-16) || solid?(x,y+16) || solid?(x,y-30)
+      addRobot(x, y)
+      @last_bot = Gosu.milliseconds
+    end
+
   end
 
   # Solid at a given pixel position?

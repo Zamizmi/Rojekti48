@@ -47,7 +47,7 @@ class GameWindow < Gosu::Window
     @character2.shoot if Gosu.button_down? Gosu::KbR
     @level.robots.each { |r| r.update  }
     @level.boxes.each { |b| b.update }
-
+    @level.randomBot
     @level.updateBullets
   end
 
