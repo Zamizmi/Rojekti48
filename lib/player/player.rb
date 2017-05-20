@@ -137,7 +137,9 @@ class Player
     if @level.solid?(@x, @y +1)
       @vy = -15
       @jump_slowness = 0
+      unless is_dead?
       @jump_sample.play
+      end
     end
   end
 
