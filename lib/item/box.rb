@@ -1,10 +1,12 @@
+require 'rubygems'
 
 class Box
-  attr_reader :x, :y
+  attr_reader :x, :y, :firespeed_increase
 
   def initialize(x, y)
     @image = Gosu::Image.new('./assets/box.png')
     @x, @y = x, y
+    @firespeed_increase = 1
   end
 
   def draw

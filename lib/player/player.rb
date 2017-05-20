@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'gosu'
 
+require './lib/gun/gun'
 
 SCALE = 0.5
 
@@ -9,6 +10,8 @@ class Player
 
   def initialize(level, x, y)
     @hp = 100
+    @gun = Gun.new(x,y)
+    @firespeed = 2
     @x, @y = x, y
     @dir = :left
     @vy = 0 # Vertical velocity
@@ -18,6 +21,17 @@ class Player
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
+  end
+
+  def collect_boxes(boxes)
+      boxes.reject! do |box|
+        if Gosu.distance(@x, @y, box.x, box.y) < 20
+          @firespeed + box.firespeed_increase
+          true
+        else
+          false
+      end
+    end
   end
 
   def take_damage (amount)
@@ -81,5 +95,9 @@ class Player
     if @level.solid?(@x, @y + 1)
       @vy = -20
     end
+  end
+
+  def shoot
+    @level.addBullet(@x, @y, @dir)
   end
 end
