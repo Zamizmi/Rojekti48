@@ -109,7 +109,7 @@ class Player
 
   def try_to_jump
     if @level.solid?(@x, @y + 1)
-      @vy = -20
+      @vy = -15
     end
   end
 

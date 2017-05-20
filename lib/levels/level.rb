@@ -26,7 +26,7 @@ class Level
     @players =[]
     @robots = []
 
-    lines = File.readlines(filename).map { |line| line.chomp }
+    lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
     @width = lines[0].size
     @tiles = Array.new(@width) do |x|
@@ -54,7 +54,7 @@ class Level
     @boxes.push(@box)
   end
 
-  def addRobot(level,x, y)
+  def addRobot(level, x, y)
     @robot = Robot.new(level, x, y)
     @robots.push(@robot)
   end
@@ -84,17 +84,23 @@ class Level
       end
     end
 
-    @bullets.each { |bullet| bullet.draw }
-    @boxes.each { |box| box.draw }
-    @robots.each { |r| r.draw }
+    @bullets.each {|bullet| bullet.draw}
+    @boxes.each {|box| box.draw}
+    @robots.each {|r| r.draw}
   end
 
   def would_hit
     @bullets.each do |b|
       @players.each do |p|
         if p.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          p.take_damage(2)
           @bullets.delete(b)
-
+        end
+      end
+      @robots.each do |r|
+        if r.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          r.take_damage(2)
+          @bullets.delete(b)
         end
       end
     end

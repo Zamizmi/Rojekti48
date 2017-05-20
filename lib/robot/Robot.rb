@@ -38,6 +38,10 @@ class Robot
           not @level.solid?(@x + offs_x, @y + offs_y - 25)
     end
 
+    def is_inside?(x, y)
+      x < (@x + OFFS_X * SCALE * 0.5) and x > (@x - OFFS_X * SCALE * 0.5) and y < (@y + OFFS_Y * SCALE) and y > (@y - OFFS_Y * SCALE)
+    end
+
     def update
       move_x = 2
     # Directional automated walking, horizontal movement
