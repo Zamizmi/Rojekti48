@@ -1,8 +1,8 @@
 require 'rubygems'
 require 'gosu'
 
-require './lib/levels/level'
-require './lib/player/player'
+require './levels/level'
+require './player/player'
 
 
 WIDTH, HEIGHT = 1075, 500
@@ -14,8 +14,8 @@ class GameWindow < Gosu::Window
 
     self.caption = "MoreGun"
 
-    @background = Gosu::Image.new('assets/space.png', :tileable => true)
-    @level = Level.new('assets/example_map.txt')
+    @background = Gosu::Image.new('../assets/space.png', :tileable => true)
+    @level = Level.new('../assets/example_map.txt')
     @character = Player.new(@level, 200, 50)
     @level.addBox(250, 300)
     # The scrolling position is stored as top left corner of the screen.

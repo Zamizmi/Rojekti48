@@ -3,7 +3,7 @@ class Box
   attr_reader :x, :y
 
   def initialize(x, y)
-    @image = Gosu::Image.new('assets/box.png')
+    @image = Gosu::Image.new('../assets/box.png')
     @x, @y = x, y
   end
 
