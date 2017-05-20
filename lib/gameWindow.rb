@@ -23,7 +23,6 @@ class GameWindow < Gosu::Window
     @level = Level.new('./assets/example_map3.txt', WIDTH)
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
-    @level.addBox(250, 300)
 
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
@@ -74,8 +73,9 @@ class GameWindow < Gosu::Window
     end
   end
 
-	def play_music(filepath)
-		@music = Gosu::Song.new(filepath)
-		@music.play(looping = true)
-	end
+  def play_music(filepath)
+    @music = Gosu::Song.new(filepath)
+    @music.volume = 0.4
+    @music.play(looping = true)
+  end
 end
