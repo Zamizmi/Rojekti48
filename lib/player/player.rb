@@ -4,11 +4,15 @@ require 'gosu'
 require './lib/gun/gun'
 
 SCALE = 0.5
+OFFS_X = 25
+OFFS_Y = 65
+SHOOT_DELAY = 500
 
 class Player
   attr_reader :x, :y
 
   def initialize(level, x, y)
+    @last_shot = 0
     @hp = 100
     @gun = Gun.new(x,y)
     @firespeed = 2
@@ -41,13 +45,13 @@ class Player
   def draw
     # Flip vertically when facing to the left.
     if @dir == :left
-      offs_x = -25*(SCALE)
+      offs_x = -1*OFFS_X*(SCALE)
       factor = SCALE
     else
-      offs_x = 25*(SCALE)
+      offs_x = OFFS_X*(SCALE)
       factor = -1*SCALE
     end
-    @cur_image.draw(@x + offs_x, @y - (65*SCALE), 0, factor, SCALE)
+    @cur_image.draw(@x + offs_x, @y - (OFFS_Y*SCALE), 0, factor, SCALE)
   end
 
   # Could the object be placed at x + offs_x/y + offs_y without being stuck?
@@ -98,6 +102,15 @@ class Player
   end
 
   def shoot
-    @level.addBullet(@x, @y, @dir)
+    if Gosu.milliseconds - @last_shot < SHOOT_DELAY - @firespeed
+      return
+    end
+    @last_shot = Gosu.milliseconds
+    if @dir == :left
+      offs_x = -1*(OFFS_X*SCALE+5)
+    else
+      offs_x = OFFS_X*SCALE+5
+    end
+    @level.addBullet(@x+offs_x, @y - ((OFFS_Y/2) * SCALE), @dir)
   end
 end
