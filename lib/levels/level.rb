@@ -2,6 +2,7 @@ require 'rubygems'
 require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
+require './lib/robot/robot'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
@@ -13,7 +14,7 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :boxes
+  attr_reader :width, :height, :boxes, :robots
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -25,7 +26,10 @@ class Level
     @window_width = window_width
     @bullets = []
     @boxes = []
-    lines = File.readlines(filename).map { |line| line.chomp }
+    @players =[]
+    @robots = []
+
+    lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
     @width = lines[0].size
     @tiles = Array.new(@width) do |x|
@@ -44,9 +48,18 @@ class Level
     end
   end
 
+  def addPlayer(player)
+    @players.push(player)
+  end
+
   def addBox(x, y)
     @box = Box.new(x, y)
     @boxes.push(@box)
+  end
+
+  def addRobot(level, x, y)
+    @robot = Robot.new(level, x, y)
+    @robots.push(@robot)
   end
 
   def addBullet(x, y, dir)
@@ -55,7 +68,9 @@ class Level
   end
 
   def updateBullets
+    would_hit
     @bullets.each {|b| b.update}
+
   end
 
   def draw
@@ -71,8 +86,42 @@ class Level
         end
       end
     end
-    @bullets.each { |b| b.draw }
-    @boxes.each { |b| b.draw }
+
+    @bullets.each {|bullet| bullet.draw}
+    @boxes.each {|box| box.draw}
+    killer
+    @robots.each {|r| r.draw}
+  end
+
+  def would_hit
+    @bullets.each do |b|
+      @players.each do |p|
+        if p.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          p.take_damage(2)
+          @bullets.delete(b)
+        end
+      end
+      @robots.each do |r|
+        if r.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          r.take_damage(2)
+          @bullets.delete(b)
+        end
+      end
+      if solid?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+        @bullets.delete(b)
+      end
+    end
+  end
+
+  def killer
+      @robots.reject! do |robot|
+        if robot.hp<1
+          addBox(robot.x, robot.y)
+          true
+        else
+          false
+      end
+    end
   end
 
   # Solid at a given pixel position?

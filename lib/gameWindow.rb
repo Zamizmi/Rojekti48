@@ -3,9 +3,14 @@ require 'gosu'
 
 require './lib/levels/level'
 require './lib/player/player'
+require './lib/robot/robot'
 
 
 WIDTH, HEIGHT = 1366, 768
+
+module ZOrder
+  BACKGROUND, STARS, PLAYER, UI = *0..3
+end
 
 class GameWindow < Gosu::Window
   def initialize(width=WIDTH, height=HEIGHT)
@@ -19,21 +24,28 @@ class GameWindow < Gosu::Window
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
     @level.addBox(250, 300)
+
+    @level.addPlayer(@character)
+    @level.addPlayer(@character2)
+    @level.addRobot(@level, 260, 300)
+    @font = Gosu::Font.new(20)
+
   end
 
   def update
     move_x = 0
-    move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
-    move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
+    move_x -= 3 if Gosu.button_down? Gosu::KB_LEFT
+    move_x += 3 if Gosu.button_down? Gosu::KB_RIGHT
     move_x2 = 0
-    move_x2 -= 5 if Gosu.button_down? Gosu::KbA
-    move_x2 += 5 if Gosu.button_down? Gosu::KbD
+    move_x2 -= 3 if Gosu.button_down? Gosu::KbA
+    move_x2 += 3 if Gosu.button_down? Gosu::KbD
     @character.update(move_x)
     @character.collect_boxes(@level.boxes)
     @character.shoot if Gosu.button_down? Gosu::KbL
     @character2.update(move_x2)
     @character2.collect_boxes(@level.boxes)
     @character2.shoot if Gosu.button_down? Gosu::KbR
+    @level.robots.each { |r| r.update  }
 
     @level.updateBullets
   end
@@ -43,6 +55,8 @@ class GameWindow < Gosu::Window
     @level.draw
     @character.draw
     @character2.draw
+    @font.draw("Health: #{@character2.health} Boxes: #{@character2.boxes_collected}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
+    @font.draw("Health: #{@character.health} Boxes: #{@character.boxes_collected}", 900, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
   end
 
   def button_down(id)

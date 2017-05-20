@@ -4,16 +4,16 @@ require 'gosu'
 require './lib/gun/gun'
 
 SCALE = 0.5
-OFFS_X = 25
-OFFS_Y = 65
+OFFS_X = 35
+OFFS_Y = 55
 SHOOT_DELAY = 500
 
 class Player
-  attr_reader :x, :y
+  attr_reader :x, :y, :health, :boxes_collected
 
   def initialize(level, x, y, race)
     @last_shot = 0
-    @hp = 100
+    @health = 100
     @gun = Gun.new(x,y)
     @firespeed = 10
     @x, @y = x, y
@@ -21,6 +21,7 @@ class Player
     @vy = 0 # Vertical velocity
     @level = level
     @race = race
+    @boxes_collected = 0
     if(race == 1)
       char_file = './assets/player1.png'
     else
@@ -33,10 +34,15 @@ class Player
     @cur_image = @standing
   end
 
+  def is_inside?(x, y)
+    x < (@x + OFFS_X * SCALE * 0.5) and x > (@x - OFFS_X * SCALE * 0.5) and y < (@y + OFFS_Y * SCALE) and y > (@y - OFFS_Y * SCALE)
+  end
+
   def collect_boxes(boxes)
       boxes.reject! do |box|
         if Gosu.distance(@x, @y, box.x, box.y) < 20
           @firespeed += box.firespeed_increase
+          @boxes_collected +=1
           true
         else
           false
@@ -45,7 +51,7 @@ class Player
   end
 
   def take_damage (amount)
-    @hp - amount
+    @health -= amount
   end
 
   def draw
@@ -64,7 +70,7 @@ class Player
   def would_fit(offs_x, offs_y)
     # Check at the center/top and center/bottom for map collisions
     not @level.solid?(@x + offs_x, @y + offs_y) and
-        not @level.solid?(@x + offs_x, @y + offs_y - (70*SCALE))
+        not @level.solid?(@x + offs_x , @y + offs_y - OFFS_Y*SCALE*0.9)
   end
 
   def update(move_x)
@@ -102,8 +108,8 @@ class Player
   end
 
   def try_to_jump
-    if @level.solid?(@x, @y + 1)
-      @vy = -20
+    if @level.solid?(@x, @y +1)
+      @vy = -15
     end
   end
 
@@ -117,6 +123,6 @@ class Player
     else
       offs_x = OFFS_X*SCALE+5
     end
-    @level.addBullet(@x+offs_x, @y - ((OFFS_Y/2) * SCALE), @dir)
+    @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir)
   end
 end
