@@ -3,6 +3,9 @@ require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
 
+LEVEL_SCALE = 0.75
+TILE_SIZE = 0.75
+
 module Tiles
   Grass = 0
   Earth = 1
@@ -14,7 +17,7 @@ class Level
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
-    @tileset = Gosu::Image.load_tiles('./assets/platform.png', 23, 23, :tileable => true)
+    @tileset = Gosu::Image.load_tiles('./assets/platform.png', 60, 60, :tileable => true)
 
     box_img = Gosu::Image.new('./assets/box.png')
 
@@ -64,7 +67,7 @@ class Level
         if tile
           # Draw the tile with an offset (tile images have some overlap)
           # Scrolling is implemented here just as in the game objects.
-          @tileset[tile].draw(x * 20 - 5, y * 20 - 5, 0)
+          @tileset[tile].draw(x * 60*LEVEL_SCALE - 5, y * 60*LEVEL_SCALE - 5, 0, LEVEL_SCALE, LEVEL_SCALE)
         end
       end
     end
@@ -74,7 +77,10 @@ class Level
 
   # Solid at a given pixel position?
   def solid?(x, y)
-    y < 0 || x < 0 || x > @window_width || @tiles[x / 20][y / 20]
+    if @tiles.length <= x / (60*LEVEL_SCALE) or @tiles[0].length <= y / (60*LEVEL_SCALE)
+      return true
+    end
+    y < 0 || x < 0 || x > @window_width || @tiles[x / (60*LEVEL_SCALE)][y / (60*LEVEL_SCALE)]
   end
 
   def getRandomStart()

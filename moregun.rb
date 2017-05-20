@@ -2,5 +2,5 @@
 
 require './lib/gameWindow'
 
-window = GameWindow.new(WIDTH, HEIGHT)
+window = GameWindow.new
 window.show if __FILE__ == $0
