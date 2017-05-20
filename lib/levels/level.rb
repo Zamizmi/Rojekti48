@@ -62,15 +62,14 @@ class Level
     @robots.push(@robot)
   end
 
-  def addBullet(x, y, dir)
-    bullet = Bullet.new(x, y, dir, self)
+  def addBullet(x, y, dir, spread=0)
+    bullet = Bullet.new(x, y, dir, self, spread)
     @bullets.push(bullet)
   end
 
   def updateBullets
     would_hit
     @bullets.each {|b| b.update}
-
   end
 
   def draw

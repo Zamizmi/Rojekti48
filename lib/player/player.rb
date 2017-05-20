@@ -53,7 +53,7 @@ class Player
   end
 
   def take_damage (amount)
-    @health -= amount
+    @health -= amount if @health > 0
     if @health < 1
       @dead = true
       @cur_image = @die
@@ -145,6 +145,14 @@ class Player
     else
       offs_x = OFFS_X*SCALE+5
     end
+
     @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir)
+    if @boxes_collected > 9
+      @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, -1)
+      @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, 1)
+    end
+
   end
+
+
 end
