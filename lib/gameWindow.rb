@@ -45,6 +45,8 @@ class GameWindow < Gosu::Window
     case id
       when Gosu::KB_UP
         @character.try_to_jump
+      when Gosu::KB_SPACE
+        @character.shoot
       when Gosu::KB_ESCAPE
         close
       else

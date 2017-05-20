@@ -79,4 +79,8 @@ class Player
       @vy = -20
     end
   end
+
+  def shoot
+    @level.addBullet(@x, @y, @dir)
+  end
 end
