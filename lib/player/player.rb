@@ -11,7 +11,7 @@ class Player
     @vy = 0 # Vertical velocity
     @level = level
     # Load all animation frames
-    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("../assets/player.png", 50, 50)
+    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("./assets/player.png", 50, 50)
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
