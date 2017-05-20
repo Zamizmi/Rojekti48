@@ -13,12 +13,12 @@ class Bullet
   def draw
     if @direction == :left
       offs_x = 0
-      factor = 1
+      factor = 2
     else
       offs_x = -5
-      factor = -1
+      factor = -2
     end
-    @image.draw(@x + offs_x, @y, 0, factor)
+    @image.draw(@x + offs_x, @y, 0, factor, 2)
   end
 
   def update

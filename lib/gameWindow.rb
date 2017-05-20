@@ -36,11 +36,11 @@ class GameWindow < Gosu::Window
 
   def update
     move_x = 0
-    move_x -= 3 if Gosu.button_down? Gosu::KB_LEFT
-    move_x += 3 if Gosu.button_down? Gosu::KB_RIGHT
+    move_x -= 4 if Gosu.button_down? Gosu::KB_LEFT
+    move_x += 4 if Gosu.button_down? Gosu::KB_RIGHT
     move_x2 = 0
-    move_x2 -= 3 if Gosu.button_down? Gosu::KbA
-    move_x2 += 3 if Gosu.button_down? Gosu::KbD
+    move_x2 -= 4 if Gosu.button_down? Gosu::KbA
+    move_x2 += 4 if Gosu.button_down? Gosu::KbD
     @character.update(move_x)
     @character.collect_boxes(@level.boxes)
     @character.shoot if Gosu.button_down? Gosu::KbL

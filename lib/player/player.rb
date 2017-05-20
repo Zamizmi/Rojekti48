@@ -12,6 +12,7 @@ class Player
   attr_reader :x, :y, :health, :boxes_collected
   attr_accessor :state
   def initialize(level, x, y, race)
+    @jump_slowness = 0
     @last_shot = 0
     @health = 100
     @gun = Gun.new(x,y)
@@ -104,22 +105,29 @@ class Player
       (-move_x).times { if would_fit(-1, 0) then @x -= 1 end }
     end
 
-    # Acceleration/gravity
-    # By adding 1 each frame, and (ideally) adding vy to y, the player's
-    # jumping curve will be the parabole we want it to be.
-    @vy += 1
-    # Vertical movement
-    if @vy > 0
-      @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
+    if @jump_slowness < 1
+      @jump_slowness += 1
+    else
+      # Acceleration/gravity
+      # By adding 1 each frame, and (ideally) adding vy to y, the player's
+      # jumping curve will be the parabole we want it to be.
+      @vy += 1
+
+      @jump_slowness = 0
     end
-    if @vy < 0
-      (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
-    end
+      # Vertical movement
+      if @vy > 0
+        @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
+      end
+      if @vy < 0
+        (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
+      end
   end
 
   def try_to_jump
     if @level.solid?(@x, @y +1)
       @vy = -15
+      @jump_slowness = 0
     end
   end
 
