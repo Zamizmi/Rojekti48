@@ -10,7 +10,7 @@ SHOOT_DELAY = 500
 
 class Player
   attr_reader :x, :y, :health, :boxes_collected
-
+  attr_accessor :state
   def initialize(level, x, y, race)
     @last_shot = 0
     @health = 100
