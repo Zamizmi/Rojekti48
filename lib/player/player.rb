@@ -4,8 +4,8 @@ require 'gosu'
 require './lib/gun/gun'
 
 SCALE = 0.5
-OFFS_X = 25
-OFFS_Y = 65
+OFFS_X = 35
+OFFS_Y = 55
 SHOOT_DELAY = 500
 
 class Player
@@ -70,7 +70,7 @@ class Player
   def would_fit(offs_x, offs_y)
     # Check at the center/top and center/bottom for map collisions
     not @level.solid?(@x + offs_x, @y + offs_y) and
-        not @level.solid?(@x + offs_x, @y + offs_y - (70*SCALE))
+        not @level.solid?(@x + offs_x , @y + offs_y - OFFS_Y*SCALE*0.9)
   end
 
   def update(move_x)
@@ -108,8 +108,10 @@ class Player
   end
 
   def try_to_jump
-    if @level.solid?(@x, @y + 1)
+    if @level.solid?(@x, @y +1)
       @vy = -15
+    else
+      print "cannot jump!"
     end
   end
 
@@ -123,6 +125,6 @@ class Player
     else
       offs_x = OFFS_X*SCALE+5
     end
-    @level.addBullet(@x+offs_x, @y - ((OFFS_Y/2) * SCALE), @dir)
+    @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir)
   end
 end
