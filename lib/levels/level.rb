@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'gosu'
 require './lib/item/box'
-require '.lib/bullet/bullet'
+require './lib/bullet/bullet'
 
 module Tiles
   Grass = 0
