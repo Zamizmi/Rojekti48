@@ -24,6 +24,11 @@ class Player
     @race = race
     @boxes_collected = 0
     @dead = false
+    @jump_sample = Gosu::Sample.new('./assets/audio/jump.wav')
+    @upgrade_sample = Gosu::Sample.new('./assets/audio/upgrade.wav')
+
+    @shot_sample = Gosu::Sample.new('./assets/audio/shot.wav')
+
     if(race == 1)
       char_file = './assets/player1.png'
     else
@@ -45,6 +50,7 @@ class Player
         if Gosu.distance(@x, @y, box.x, box.y) < 20
           @firespeed += box.firespeed_increase
           @boxes_collected +=1
+          @upgrade_sample.play
           true
         else
           false
@@ -131,6 +137,7 @@ class Player
     if @level.solid?(@x, @y +1)
       @vy = -15
       @jump_slowness = 0
+      @jump_sample.play
     end
   end
 
@@ -147,6 +154,7 @@ class Player
     end
 
     @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir)
+    @shot_sample.play
     if @boxes_collected > 9
       @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, -1)
       @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, 1)
