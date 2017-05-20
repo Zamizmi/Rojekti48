@@ -2,6 +2,7 @@ require 'rubygems'
 require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
+require './lib/robot/robot'
 
 module Tiles
   Grass = 0
@@ -22,6 +23,8 @@ class Level
     @window_width = window_width
     @bullets = []
     @boxes = []
+    @robots = []
+
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
     @width = lines[0].size
@@ -44,6 +47,11 @@ class Level
   def addBox(x, y)
     @box = Box.new(x, y)
     @boxes.push(@box)
+  end
+
+  def addRobot(level,x, y)
+    @robot = Robot.new(level, x, y)
+    @robots.push(@robot)
   end
 
   def addBullet(x, y, dir)
@@ -70,6 +78,7 @@ class Level
     end
     @bullets.each { |b| b.draw }
     @boxes.each { |b| b.draw }
+    @robots.each { |r| r.draw }
   end
 
   # Solid at a given pixel position?

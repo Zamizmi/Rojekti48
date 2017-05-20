@@ -3,6 +3,7 @@ require 'gosu'
 
 require './lib/levels/level'
 require './lib/player/player'
+require './lib/robot/robot'
 
 
 WIDTH, HEIGHT = 1075, 500
@@ -19,6 +20,7 @@ class GameWindow < Gosu::Window
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
     @level.addBox(250, 300)
+    @level.addRobot(@level, 260, 300)
   end
 
   def update
@@ -34,6 +36,7 @@ class GameWindow < Gosu::Window
     @character2.update(move_x2)
     @character2.collect_boxes(@level.boxes)
     @character2.shoot if Gosu.button_down? Gosu::KbR
+    @level.robots.each { |r| r.update  }  
 
     @level.updateBullets
     #@character.collect_gems(@level.gems)
