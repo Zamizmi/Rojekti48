@@ -10,6 +10,6 @@ The sprite used for the robot is one of the sprites from "3X UPDATED 32x32 Scifi
 The sprite used for the dwarf is from the "Delve Deeper Dwarves" collection by Lunar Giant. Original art viewable [here](https://opengameart.org/content/delve-deeper-dwarves). Supplied to us under [Creative Commons 3.0][1] license.
 
 #### Match end jingle
-The SFX used at the end of each match is from "Level up sound effects" by Bart Kelsey. Commissioned by Will Corwin for <opengameart.org>. The pack in its entirety can be found [here](https://opengameart.org/content/level-up-sound-effects). Supplied to us under [Creative Commons 3.0][1] license.
+The SFX used at the end of each match is from "Level up sound effects" by Bart Kelsey. Commissioned by Will Corwin for <https://opengameart.org>. The pack in its entirety can be found [here](https://opengameart.org/content/level-up-sound-effects). Supplied to us under [Creative Commons 3.0][1] license.
 
 [1]: https://creativecommons.org/licenses/by/3.0/
