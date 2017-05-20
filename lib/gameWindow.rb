@@ -17,6 +17,7 @@ class GameWindow < Gosu::Window
     @background = Gosu::Image.new('./assets/space.png', :tileable => true)
     @level = Level.new('./assets/example_map.txt')
     @character = Player.new(@level, 200, 50)
+    @character2 = Player.new(@level, 400, 50)
     @level.addBox(250, 300)
     # The scrolling position is stored as top left corner of the screen.
     @camera_x = @camera_y = 0
@@ -26,8 +27,16 @@ class GameWindow < Gosu::Window
     move_x = 0
     move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
     move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
+    move_x2 = 0
+    move_x2 -= 5 if Gosu.button_down? Gosu::KbA
+    move_x2 += 5 if Gosu.button_down? Gosu::KbD
     @character.update(move_x)
     @character.collect_boxes(@level.boxes)
+    @character.shoot if Gosu.button_down? Gosu::KbL
+    @character2.update(move_x2)
+    @character2.collect_boxes(@level.boxes)
+    @character2.shoot if Gosu.button_down? Gosu::KbR
+
     @level.updateBullets
     #@character.collect_gems(@level.gems)
     # Scrolling follows player
@@ -40,6 +49,7 @@ class GameWindow < Gosu::Window
     Gosu.translate(-@camera_x, -@camera_y) do
       @level.draw
       @character.draw
+      @character2.draw
     end
   end
 
@@ -47,8 +57,8 @@ class GameWindow < Gosu::Window
     case id
       when Gosu::KB_UP
         @character.try_to_jump
-      when Gosu::KB_SPACE
-        @character.shoot
+      when Gosu::KbW
+        @character2.try_to_jump
       when Gosu::KB_ESCAPE
         close
       else
