@@ -10,7 +10,7 @@ class Robot
     @image = Gosu::Image.new("assets/robot.png")
     @vy = 0 # Vertical velocity
     @level = level
-    @dir = :right
+    @dir = :left
     @die = false
     @cur_image = @image
   end
