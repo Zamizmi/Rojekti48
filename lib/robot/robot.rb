@@ -21,7 +21,7 @@ class Robot
 
   def draw
     # Flip vertically when facing to the right.
-    if @dir == :right
+    if @dir == :left
       offs_x = -16
       factor = 1.0
     else
@@ -39,7 +39,7 @@ class Robot
     end
 
     def update
-      move_x = 1
+      move_x = 2
     # Directional automated walking, horizontal movement
     if @dir == :right
 
