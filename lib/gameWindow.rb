@@ -27,6 +27,7 @@ class GameWindow < Gosu::Window
     move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
     move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
     @character.update(move_x)
+    @character.collect_boxes(@level.boxes)
     #@character.collect_gems(@level.gems)
     # Scrolling follows player
     #@camera_x = [[@character.x - WIDTH / 2, 0].max, @level.width * 50 - WIDTH].min
@@ -54,6 +55,3 @@ class GameWindow < Gosu::Window
     end
   end
 end
-
-
-

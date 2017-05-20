@@ -10,17 +10,17 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :gems
+  attr_reader :width, :height, :boxes
 
   def initialize(filename)
-    # Load 60x60 tiles, 5px overlap in all four directions.
+    # Load 20x20 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles('./assets/platform.png', 20, 20, :tileable => true)
 
     box_img = Gosu::Image.new('./assets/box.png')
 
-    @laatikot = []
-    @bullets = []
 
+    @bullets = []
+    @boxes = []
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
     @width = lines[0].size
@@ -41,9 +41,8 @@ class Level
   end
 
   def addBox(x, y)
-    laatikko = Box.new(x, y)
-    @laatikot.push(laatikko)
-
+    @box = Box.new(x, y)
+    @boxes.push(@box)
   end
 
   def addBullet(x, y, dir)
@@ -68,8 +67,8 @@ class Level
         end
       end
     end
-    @laatikot.each { |b| b.draw }
     @bullets.each { |b| b.draw }
+    @boxes.each { |b| b.draw }
   end
 
   # Solid at a given pixel position?
