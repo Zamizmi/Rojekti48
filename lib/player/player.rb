@@ -22,6 +22,7 @@ class Player
     @level = level
     @race = race
     @boxes_collected = 0
+    @dead = false
     if(race == 1)
       char_file = './assets/player1.png'
     else
@@ -52,6 +53,18 @@ class Player
 
   def take_damage (amount)
     @health -= amount
+    if @health < 1
+      die
+    end
+  end
+
+  def die
+    @cur_image = @die
+    @dead = true
+  end
+
+  def is_dead?
+    @dead
   end
 
   def draw
@@ -75,6 +88,7 @@ class Player
 
   def update(move_x)
     # Select image depending on action
+    return if is_dead?
     if (move_x == 0)
       @cur_image = @standing
     else
@@ -114,6 +128,7 @@ class Player
   end
 
   def shoot
+    return if is_dead?
     if Gosu.milliseconds - @last_shot < SHOOT_DELAY - @firespeed
       return
     end
