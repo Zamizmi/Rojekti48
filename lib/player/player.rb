@@ -15,7 +15,7 @@ class Player
     @last_shot = 0
     @hp = 100
     @gun = Gun.new(x,y)
-    @firespeed = 2
+    @firespeed = 10
     @x, @y = x, y
     @dir = :left
     @vy = 0 # Vertical velocity
@@ -36,7 +36,7 @@ class Player
   def collect_boxes(boxes)
       boxes.reject! do |box|
         if Gosu.distance(@x, @y, box.x, box.y) < 20
-          @firespeed + box.firespeed_increase
+          @firespeed += box.firespeed_increase
           true
         else
           false
