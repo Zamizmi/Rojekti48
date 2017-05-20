@@ -86,12 +86,12 @@ class Player
   def update(move_x)
     # Select image depending on action
     return if is_dead?
-    if (move_x == 0)
+    if move_x == 0
       @cur_image = @standing
     else
       @cur_image = (Gosu.milliseconds / 175 % 2 == 0) ? @walk1 : @walk2
     end
-    if (@vy < 0)
+    if @vy < 0
       @cur_image = @jump
     end
 
@@ -112,16 +112,19 @@ class Player
       # By adding 1 each frame, and (ideally) adding vy to y, the player's
       # jumping curve will be the parabole we want it to be.
       @vy += 1
+      if (@race == 1 and not Gosu.button_down? Gosu::KB_UP) or (@race == 2 and not Gosu.button_down? Gosu::KB_W)
+        @vy += 1
+      end
 
       @jump_slowness = 0
     end
-      # Vertical movement
-      if @vy > 0
-        @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
-      end
-      if @vy < 0
-        (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
-      end
+    # Vertical movement
+    if @vy > 0
+      @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
+    end
+    if @vy < 0
+      (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
+    end
   end
 
   def try_to_jump
