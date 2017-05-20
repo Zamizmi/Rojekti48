@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'gosu'
 
+
+SCALE = 0.5
+
 class Player
   attr_reader :x, :y
 
@@ -11,7 +14,7 @@ class Player
     @vy = 0 # Vertical velocity
     @level = level
     # Load all animation frames
-    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("./assets/player.png", 50, 50)
+    @standing, @walk1, @walk2, @jump, @shoot, @die = *Gosu::Image.load_tiles("./assets/player2.png", 70, 56)
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
@@ -24,20 +27,20 @@ class Player
   def draw
     # Flip vertically when facing to the left.
     if @dir == :left
-      offs_x = -25
-      factor = 1.0
+      offs_x = -25*(SCALE)
+      factor = SCALE
     else
-      offs_x = 25
-      factor = -1.0
+      offs_x = 25*(SCALE)
+      factor = -1*SCALE
     end
-    @cur_image.draw(@x + offs_x, @y - 49, 0, factor, 1.0)
+    @cur_image.draw(@x + offs_x, @y - (65*SCALE), 0, factor, SCALE)
   end
 
   # Could the object be placed at x + offs_x/y + offs_y without being stuck?
   def would_fit(offs_x, offs_y)
     # Check at the center/top and center/bottom for map collisions
     not @level.solid?(@x + offs_x, @y + offs_y) and
-        not @level.solid?(@x + offs_x, @y + offs_y - 45)
+        not @level.solid?(@x + offs_x, @y + offs_y - (70*SCALE))
   end
 
   def update(move_x)

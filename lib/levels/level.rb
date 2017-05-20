@@ -13,7 +13,7 @@ class Level
 
   def initialize(filename)
     # Load 60x60 tiles, 5px overlap in all four directions.
-    @tileset = Gosu::Image.load_tiles('./assets/platform.png', 20, 20, :tileable => true)
+    @tileset = Gosu::Image.load_tiles('./assets/platform.png', 23, 23, :tileable => true)
 
     box_img = Gosu::Image.new('./assets/box.png')
 
