@@ -116,7 +116,7 @@ class Level
   def killer
       @robots.reject! do |robot|
         if robot.hp<1
-          addBox(robot.x, robot.y)
+          addBox(robot.x, robot.y-10)
           true
         else
           false
