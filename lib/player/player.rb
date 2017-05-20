@@ -22,7 +22,7 @@ class Player
     @level = level
     @race = race
     if(race == 1)
-      char_file = './assets/player1.png'
+      char_file = './assets/player1test.png'
     else
       char_file = './assets/player2.png'
     end
