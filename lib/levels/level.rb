@@ -103,6 +103,9 @@ class Level
           @bullets.delete(b)
         end
       end
+      if solid?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+        @bullets.delete(b)
+      end
     end
   end
 
