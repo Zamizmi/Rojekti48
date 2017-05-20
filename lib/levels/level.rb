@@ -53,12 +53,12 @@ class Level
   end
 
   def addBox(x, y)
-    @box = Box.new(x, y)
+    @box = Box.new(self, x, y)
     @boxes.push(@box)
   end
 
-  def addRobot(level, x, y)
-    @robot = Robot.new(level, x, y)
+  def addRobot(x, y)
+    @robot = Robot.new(self, x, y)
     @robots.push(@robot)
   end
 
@@ -85,7 +85,6 @@ class Level
         end
       end
     end
-
     @bullets.each {|bullet| bullet.draw}
     @boxes.each {|box| box.draw}
     killer
@@ -115,7 +114,7 @@ class Level
   def killer
       @robots.reject! do |robot|
         if robot.hp<1
-          addBox(robot.x, robot.y-10)
+          addBox(robot.x, robot.y)
           true
         else
           false

@@ -26,9 +26,8 @@ class GameWindow < Gosu::Window
 
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
-    @level.addRobot(@level, 260, 300)
+    @level.addRobot(260, 300)
     @font = Gosu::Font.new(20)
-
 		self.play_music('./assets/audio/battleMusic.mp3')
 
   end
@@ -47,6 +46,7 @@ class GameWindow < Gosu::Window
     @character2.collect_boxes(@level.boxes)
     @character2.shoot if Gosu.button_down? Gosu::KbR
     @level.robots.each { |r| r.update  }
+    @level.boxes.each { |b| b.update }
 
     @level.updateBullets
   end
