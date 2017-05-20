@@ -2,6 +2,7 @@ require 'rubygems'
 require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
+require './lib/robot/robot'
 
 module Tiles
   Grass = 0
@@ -10,7 +11,7 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :boxes
+  attr_reader :width, :height, :boxes, :robots
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -23,6 +24,7 @@ class Level
     @bullets = []
     @boxes = []
     @players =[]
+    @robots = []
 
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
@@ -52,6 +54,11 @@ class Level
     @boxes.push(@box)
   end
 
+  def addRobot(level,x, y)
+    @robot = Robot.new(level, x, y)
+    @robots.push(@robot)
+  end
+
   def addBullet(x, y, dir)
     bullet = Bullet.new(x, y, dir, self)
     @bullets.push(bullet)
@@ -76,8 +83,10 @@ class Level
         end
       end
     end
+
     @bullets.each { |bullet| bullet.draw }
     @boxes.each { |box| box.draw }
+    @robots.each { |r| r.draw }
   end
 
   def would_hit
