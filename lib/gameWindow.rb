@@ -30,6 +30,8 @@ class GameWindow < Gosu::Window
     @level.addRobot(@level, 260, 300)
     @font = Gosu::Font.new(20)
 
+		self.play_music('./assets/audio/battleMusic.mp3')
+
   end
 
   def update
@@ -71,4 +73,9 @@ class GameWindow < Gosu::Window
         super
     end
   end
+
+	def play_music(filepath)
+		@music = Gosu::Song.new(filepath)
+		@music.play(looping = true)
+	end
 end
