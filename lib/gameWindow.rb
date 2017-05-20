@@ -74,8 +74,9 @@ class GameWindow < Gosu::Window
     end
   end
 
-	def play_music(filepath)
-		@music = Gosu::Song.new(filepath)
-		@music.play(looping = true)
-	end
+  def play_music(filepath)
+    @music = Gosu::Song.new(filepath)
+    @music.volume = 0.4
+    @music.play(looping = true)
+  end
 end
