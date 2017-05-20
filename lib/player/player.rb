@@ -11,7 +11,7 @@ SHOOT_DELAY = 500
 class Player
   attr_reader :x, :y
 
-  def initialize(level, x, y)
+  def initialize(level, x, y, race)
     @last_shot = 0
     @hp = 100
     @gun = Gun.new(x,y)
@@ -20,8 +20,14 @@ class Player
     @dir = :left
     @vy = 0 # Vertical velocity
     @level = level
+    @race = race
+    if(race == 1)
+      char_file = './assets/player1.png'
+    else
+      char_file = './assets/player2.png'
+    end
     # Load all animation frames
-    @standing, @walk1, @walk2, @jump, @shoot, @die = *Gosu::Image.load_tiles("./assets/player2.png", 70, 56)
+    @standing, @walk1, @walk2, @jump, @shoot, @die = *Gosu::Image.load_tiles(char_file, 70, 56)
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing
