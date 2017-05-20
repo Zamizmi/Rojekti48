@@ -12,13 +12,14 @@ end
 class Level
   attr_reader :width, :height, :boxes
 
-  def initialize(filename)
+  def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles('./assets/platform.png', 23, 23, :tileable => true)
 
     box_img = Gosu::Image.new('./assets/box.png')
 
 
+    @window_width = window_width
     @bullets = []
     @boxes = []
     lines = File.readlines(filename).map { |line| line.chomp }
@@ -73,7 +74,7 @@ class Level
 
   # Solid at a given pixel position?
   def solid?(x, y)
-    y < 0 || @tiles[x / 20][y / 20]
+    y < 0 || x < 0 || x > @window_width || @tiles[x / 20][y / 20]
   end
 
   def getRandomStart()

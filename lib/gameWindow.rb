@@ -15,7 +15,7 @@ class GameWindow < Gosu::Window
     self.caption = "MoreGun"
 
     @background = Gosu::Image.new('./assets/space.png', :tileable => true)
-    @level = Level.new('./assets/example_map.txt')
+    @level = Level.new('./assets/example_map.txt', width)
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
     @level.addBox(250, 300)
