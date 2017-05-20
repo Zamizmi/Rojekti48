@@ -19,6 +19,8 @@ class GameWindow < Gosu::Window
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
     @level.addBox(250, 300)
+    @level.addPlayer(@character)
+    @level.addPlayer(@character2)
   end
 
   def update

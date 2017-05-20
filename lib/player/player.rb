@@ -33,6 +33,10 @@ class Player
     @cur_image = @standing
   end
 
+  def is_inside?(x, y)
+    x < (@x + OFFS_X * SCALE * 0.5) and x > (@x - OFFS_X * SCALE * 0.5) and y < (@y + OFFS_Y * SCALE) and y > (@y - OFFS_Y * SCALE)
+  end
+
   def collect_boxes(boxes)
       boxes.reject! do |box|
         if Gosu.distance(@x, @y, box.x, box.y) < 20

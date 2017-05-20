@@ -22,6 +22,8 @@ class Level
     @window_width = window_width
     @bullets = []
     @boxes = []
+    @players =[]
+
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
     @width = lines[0].size
@@ -41,6 +43,10 @@ class Level
     end
   end
 
+  def addPlayer(player)
+    @players.push(player)
+  end
+
   def addBox(x, y)
     @box = Box.new(x, y)
     @boxes.push(@box)
@@ -52,7 +58,9 @@ class Level
   end
 
   def updateBullets
+    would_hit
     @bullets.each {|b| b.update}
+
   end
 
   def draw
@@ -68,8 +76,19 @@ class Level
         end
       end
     end
-    @bullets.each { |b| b.draw }
-    @boxes.each { |b| b.draw }
+    @bullets.each { |bullet| bullet.draw }
+    @boxes.each { |box| box.draw }
+  end
+
+  def would_hit
+    @bullets.each do |b|
+      @players.each do |p|
+        if p.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          @bullets.delete(b)
+
+        end
+      end
+    end
   end
 
   # Solid at a given pixel position?
