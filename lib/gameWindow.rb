@@ -54,5 +54,4 @@ class GameWindow < Gosu::Window
 end
 
 
-window = GameWindow.new(WIDTH, HEIGHT)
-window.show if __FILE__ == $0
+
