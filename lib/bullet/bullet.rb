@@ -3,11 +3,12 @@ SPEED = 10
 class Bullet
   attr_reader :x, :y
 
-  def initialize(x, y, direction, level)
+  def initialize(x, y, direction, level, spread=0)
     @image = Gosu::Image.new('./assets/bullet.png')
     @x, @y = x, y
     @direction = direction
     @level = level
+    @spread = spread
   end
 
   def draw
@@ -28,7 +29,7 @@ class Bullet
     else
       @x = @x - SPEED
     end
-
+    @y = @y + 1*@spread
   end
 
   def would_fit
