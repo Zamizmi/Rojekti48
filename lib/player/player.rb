@@ -54,13 +54,9 @@ class Player
   def take_damage (amount)
     @health -= amount
     if @health < 1
-      die
+      @dead = true
+      @cur_image = @die
     end
-  end
-
-  def die
-    @cur_image = @die
-    @dead = true
   end
 
   def is_dead?
