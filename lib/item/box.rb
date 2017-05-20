@@ -6,7 +6,7 @@ class Box
   def initialize(x, y)
     @image = Gosu::Image.new('./assets/box.png')
     @x, @y = x, y
-    @firespeed_increase = 1
+    @firespeed_increase = 20
   end
 
   def draw
