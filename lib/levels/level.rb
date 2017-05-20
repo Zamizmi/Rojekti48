@@ -86,6 +86,7 @@ class Level
 
     @bullets.each {|bullet| bullet.draw}
     @boxes.each {|box| box.draw}
+    killer
     @robots.each {|r| r.draw}
   end
 
@@ -105,6 +106,17 @@ class Level
       end
       if solid?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
         @bullets.delete(b)
+      end
+    end
+  end
+
+  def killer
+      @robots.reject! do |robot|
+        if robot.hp<1
+          addBox(robot.x, robot.y)
+          true
+        else
+          false
       end
     end
   end
