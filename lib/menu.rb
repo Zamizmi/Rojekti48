@@ -16,7 +16,7 @@ class Menu < Gosu::Window
     @map_path = ""
 
     @font = Gosu::Font.new(30)
-    @text = "Welcome to MoreGun game! Choose map by pressing 'Q' 'W' 'E' 'R' or 'T'."
+    @text = "Welcome to MoreGun game! Choose map by pressing 'Z' 'X' 'C' 'V' or 'B'."
     @menu = self
     @background_music = Gosu::Song.new('./assets/audio/menuTheme.mp3')
     @pics = Array.new
@@ -31,6 +31,7 @@ class Menu < Gosu::Window
     @pic5 = Gosu::Image.new('./assets/level_images/example_map4-Barren_area.png', :tileable => true)
     @pics << @pic5
     @background_music.play(looping = true)
+    @window = ""
   end
 
   def draw
@@ -51,31 +52,35 @@ class Menu < Gosu::Window
 
   def start
     @background_music.stop
-    window = GameWindow.new(@map_path)
-    window.show# if __FILE__ == $0
+    @window = GameWindow.new(@map_path, self)
+    @window.show
   end
 
-
+  def end_game
+    @background = Gosu::Image.new('./assets/space-png',:tileable => true)
+    @text = "#{@window.checkWinner.to_s} is the winner!"
+    
+  end
 
   def button_down(id)
     case id
 
-    when Gosu::KbQ
+    when Gosu::KbZ
         @map_path = './assets/dropMap.txt'
         start
-      when Gosu::KbW
+      when Gosu::KbX
         @map_path = './assets/example_map1.txt'
         #close
         start
-      when Gosu::KbE
+      when Gosu::KbC
         @map_path = './assets/example_map2.txt'
         #close
         start
-      when Gosu::KbR
+      when Gosu::KbV
         @map_path = './assets/example_map3.txt'
         #close
         start
-      when Gosu::KbT
+      when Gosu::KbB
         @map_path = './assets/example_map4.txt'
         #close
         start

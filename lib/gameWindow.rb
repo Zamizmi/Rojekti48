@@ -14,7 +14,7 @@ module ZOrder
 end
 
 class GameWindow < Gosu::Window
-  def initialize(map_path, width=WIDTH, height=HEIGHT)
+  def initialize(map_path, handler, width=WIDTH, height=HEIGHT)
 
     super WIDTH, HEIGHT, fullscreen = true
 
@@ -26,6 +26,7 @@ class GameWindow < Gosu::Window
     spawn2 = @level.getRandomStart
     @character = Player.new(@level, spawn1[0], spawn1[1], 1)
     @character2 = Player.new(@level, spawn2[0], spawn2[1], 2)
+    @handler = handler
 
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
@@ -97,9 +98,9 @@ end
       end
   end
 
-  ##def endGame
-
-##  end
+  def endGame
+    @handler.end_game
+  end
 
   def play_music(filepath)
     @music = Gosu::Song.new(filepath)
