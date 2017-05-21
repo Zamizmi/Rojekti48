@@ -19,26 +19,27 @@ class Menu < Gosu::Window
     @text = "Welcome to MoreGun game! Choose map by pressing 'Q' 'W' 'E' 'R' or 'T'."
     @menu = self
     @pics = Array.new
-    @pic1 = Gosu::Image.new('./assets/level_images/example_map-Hole.png', :tileable => true).subimage(50,50,200,200)
+    @pic1 = Gosu::Image.new('./assets/level_images/dropMap-Drop_Zone.png', :tileable => true)
     @pics << @pic1
-    @pic2 = Gosu::Image.new('./assets/level_images/example_map-Hole.png', :tileable => true).subimage(50,50,200,200)
-    #@pics << @pic2
-    @pic3 = Gosu::Image.new('./assets/level_images/example_map-Hole.png', :tileable => true).subimage(50,50,200,200)
-    #@pics << @pic3
-    @pic4 = Gosu::Image.new('./assets/level_images/example_map-Hole.png', :tileable => true).subimage(50,50,200,200)
-    #@pics << @pic4
-    #add_item((Gosu::Image.new('./assets/level_images/dropMap-Drop_Zone.png', :tileable => true)), 200, 300, close, nil)
-    #add_item(Gosu::Image.new('./assets/level_images/example_map-Hole.png', :tileable => true))
-    #add_item(Gosu::Image.new('./assets/level_images/example_map2-FInal_Destination.png', :tileable => true))
-    #add_item(Gosu::Image.new('./assets/level_images/example_map3-X_crossing.png', :tileable => true))
-    #add_item(Gosu::Image.new('./assets/level_images/example_map4-Barren_area.png', :tileable => true))
+    @pic2 = Gosu::Image.new('./assets/level_images/example_map-Hole.png', :tileable => true)
+    @pics << @pic2
+    @pic3 = Gosu::Image.new('./assets/level_images/example_map2-Final_Destination.png', :tileable => true)
+    @pics << @pic3
+    @pic4 = Gosu::Image.new('./assets/level_images/example_map3-X_crossing.png', :tileable => true)
+    @pics << @pic4
+    @pic5 = Gosu::Image.new('./assets/level_images/example_map4-Barren_area.png', :tileable => true)
+    @pics << @pic5
   end
 
   def draw
+    @x = 200
+    @y = 450
+    @i =1
     @background.draw 0, 0, 0
     @font.draw(@text,300, 400, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLACK)
     @pics.each do |i|
-      i.draw 200, 400, 0
+      i.draw @x*@i, @y, 0
+      @i+=1
     end
   end
 
@@ -57,7 +58,7 @@ class Menu < Gosu::Window
     case id
 
     when Gosu::KbQ
-        @map_path = './assets/example_map.txt'
+        @map_path = './assets/dropMap.txt'
         start
       when Gosu::KbW
         @map_path = './assets/example_map1.txt'
