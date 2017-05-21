@@ -32,6 +32,7 @@ class GameWindow < Gosu::Window
     @level.addPlayer(@character2)
     @font = Gosu::Font.new(20)
     @battle_theme = Gosu::Song.new('./assets/audio/battleMusic.mp3')
+    @battle_theme.volume = 0.4
     @battle_theme.play(looping = true)
   end
 

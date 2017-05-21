@@ -31,6 +31,7 @@ class Player
     @upgrade_sample = Gosu::Sample.new('./assets/audio/upgrade.wav')
     @robot_hit_sample = Gosu::Sample.new('./assets/audio/robotDamage.wav')
     @shot_sample = Gosu::Sample.new('./assets/audio/shot.wav')
+    @death_sample = Gosu::Sample.new('./assets/audio/death.wav')
 
     if(race == 1)
       char_file = './assets/player1.png'
@@ -67,6 +68,7 @@ class Player
     if @health < 1
       @dead = true
       @cur_image = @die
+      @death_sample.play(volume = 1.2)
       @health = 0
       @timeofdeath = Gosu.milliseconds
     end
