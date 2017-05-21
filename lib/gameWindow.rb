@@ -4,6 +4,7 @@ require 'gosu'
 require './lib/levels/level'
 require './lib/player/player'
 require './lib/robot/robot'
+require './lib/explosion/explosion'
 
 
 WIDTH, HEIGHT = 1366, 768
@@ -29,6 +30,7 @@ class GameWindow < Gosu::Window
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
     @level.addRobot(260, 300)
+    @level.addExplosion(300,300)
     @font = Gosu::Font.new(20)
 		self.play_music('./assets/audio/battleMusic.mp3')
 
@@ -49,6 +51,7 @@ class GameWindow < Gosu::Window
     @character2.shoot if Gosu.button_down? Gosu::KbR
     @level.robots.each { |r| r.update  }
     @level.boxes.each { |b| b.update }
+    @level.explosions.each { |e| e.update}
     @level.randomBot
     @level.updateBullets
   end

@@ -196,10 +196,13 @@ class Player
     end
 
     @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir)
-    @shot_sample.play
+    if @boxes_collected <= 9
+      @shot_sample.play
+    end
     if @boxes_collected > 9
       @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, -1)
       @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, 1)
+      @shot_sample.play(volume = 0.6)
     end
 
   end
