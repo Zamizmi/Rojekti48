@@ -23,7 +23,7 @@ class Level
 
     box_img = Gosu::Image.new('./assets/box.png')
 
-
+    @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
     @window_width = window_width
     @bullets = []
     @boxes = []
@@ -116,6 +116,7 @@ class Level
       @robots.reject! do |robot|
         if robot.hp<1
           addBox(robot.x, robot.y)
+          @explosion_sample.play(volume = 0.5)
           true
         else
           false
