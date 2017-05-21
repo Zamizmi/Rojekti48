@@ -44,13 +44,13 @@ class GameWindow < Gosu::Window
     move_x2 -= 4 if Gosu.button_down? Gosu::KbA
     move_x2 += 4 if Gosu.button_down? Gosu::KbD
     @character.update(move_x)
-    @character.collect_boxes(@level.boxes)
     @character.shoot if Gosu.button_down? Gosu::KbL
     @character2.update(move_x2)
-    @character2.collect_boxes(@level.boxes)
+    @character2.collect_items(@level.items)
+    @character.collect_items(@level.items)
     @character2.shoot if Gosu.button_down? Gosu::KbR
     @level.robots.each { |r| r.update  }
-    @level.boxes.each { |b| b.update }
+    @level.items.each { |i| i.update}
     @level.explosions.each { |e| e.update}
     @level.randomBot
     @level.updateBullets
@@ -61,8 +61,8 @@ class GameWindow < Gosu::Window
     @level.draw
     @character.draw
     @character2.draw
-    @font.draw("Health: #{@character2.health} Boxes: #{@character2.boxes_collected}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
-    @font.draw("Health: #{@character.health} Boxes: #{@character.boxes_collected}", 1180, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
+    @font.draw("Health: #{@character2.health} Score: #{@character2.boxes_collected}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
+    @font.draw("Health: #{@character.health} Score: #{@character.boxes_collected}", 1180, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
   end
 
   def button_down(id)

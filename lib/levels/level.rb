@@ -3,6 +3,7 @@ require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
 require './lib/robot/robot'
+require './lib/item/balloon'
 require './lib/explosion/explosion'
 
 LEVEL_SCALE = 0.75
@@ -16,21 +17,21 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :boxes, :robots, :start_points, :explosions
 
+  attr_reader :width, :height, :items, :robots, :start_points, :explosions
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles('./assets/platform.png', 60, 60, :tileable => true)
 
-    box_img = Gosu::Image.new('./assets/box.png')
 
     @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
     @window_width = window_width
     @bullets = []
-    @boxes = []
+    @items = []
     @players =[]
     @robots = []
+    @flying = 0
     @explosions = []
     @last_bot = 0
     @start_points = []
@@ -62,7 +63,12 @@ class Level
 
   def addBox(x, y)
     @box = Box.new(self, x, y)
-    @boxes.push(@box)
+    @items.push(@box)
+  end
+
+  def addBalloon(x, y)
+    @balloon = Balloon.new(self, x, y)
+    @items.push(@balloon)
   end
 
   def addRobot(x, y)
@@ -99,8 +105,9 @@ class Level
       end
     end
     @bullets.each {|bullet| bullet.draw}
-    @boxes.each {|box| box.draw}
+    @robots.each {|robot| robot.draw}
     killer
+    @items.each{|i| i.draw}
     @robots.each {|r| r.draw}
     explosionKiller
     @explosions.each { |e| e.draw}
@@ -139,7 +146,13 @@ class Level
   def killer
       @robots.reject! do |robot|
         if robot.hp<1
-          addBox(robot.x, robot.y)
+          if @flying == 1
+            addBalloon(robot.x, robot.y)
+            @flying = 0
+          else
+            addBox(robot.x, robot.y)
+            @flying = 1
+          end
           addExplosion(robot.x, robot.y)
           @explosion_sample.play(volume = 0.5)
           true
