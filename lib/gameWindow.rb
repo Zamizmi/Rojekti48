@@ -22,8 +22,10 @@ class GameWindow < Gosu::Window
 
     @background = Gosu::Image.new('./assets/spookyWoods.png', :tileable => true)
     @level = Level.new('./assets/example_map3.txt', WIDTH)
-    @character = Player.new(@level, 200, 50, 1)
-    @character2 = Player.new(@level, 400, 50, 2)
+    spawn1 = @level.getRandomStart
+    spawn2 = @level.getRandomStart
+    @character = Player.new(@level, spawn1[0], spawn1[1], 1)
+    @character2 = Player.new(@level, spawn2[0], spawn2[1], 2)
 
     @level.addPlayer(@character)
     @level.addPlayer(@character2)

@@ -16,7 +16,8 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :boxes, :robots, :explosions
+  attr_reader :width, :height, :boxes, :robots, :start_points, :explosions
+
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -32,6 +33,7 @@ class Level
     @robots = []
     @explosions = []
     @last_bot = 0
+    @start_points = []
     lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
     @width = lines[0].size
@@ -43,12 +45,15 @@ class Level
           when '#'
             Tiles::Earth
           when 'x'
+            @start_points.push([x*(LEVEL_SCALE*60)+LEVEL_SCALE*60*0.5, y*(LEVEL_SCALE*60)+LEVEL_SCALE*60*0.5])
             nil
           else
             nil
         end
       end
     end
+    raise "Map needs atleast 2 spawn locations marked with \"x\"!" if @start_points.length <2
+    @start_points.shuffle!
   end
 
   def addPlayer(player)
@@ -170,6 +175,6 @@ class Level
   end
 
   def getRandomStart()
-    #TODO
+    @start_points.pop
   end
 end
