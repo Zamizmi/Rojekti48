@@ -13,7 +13,9 @@ BOT_DELAY = 6000
 
 module Tiles
   Grass = 0
-  Earth = 1
+  Grass2 = 1
+  Earth = 2
+  Earth2 = 3
 end
 
 # Map class holds and draws tiles and gems.
@@ -23,7 +25,7 @@ class Level
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
-    @tileset = Gosu::Image.load_tiles('./assets/platform.png', 60, 60, :tileable => true)
+    @tileset = Gosu::Image.load_tiles('./assets/tileset.png', 60, 60, :tileable => true)
 
     @pop_sample = Gosu::Sample.new('./assets/audio/balloonPop.wav')
     @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
@@ -43,9 +45,17 @@ class Level
       Array.new(@height) do |y|
         case lines[y][x, 1]
           when '"'
-            Tiles::Grass
+            if Random.rand() > 0.5
+              Tiles::Grass2
+            else
+              Tiles::Grass
+            end
           when '#'
-            Tiles::Earth
+            if Random.rand() > 0.5
+              Tiles::Earth2
+            else
+              Tiles::Earth
+            end
           when 'x'
             @start_points.push([x*(LEVEL_SCALE*60)+LEVEL_SCALE*60*0.5, y*(LEVEL_SCALE*60)+LEVEL_SCALE*60*0.5])
             nil
