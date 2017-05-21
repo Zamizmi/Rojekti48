@@ -3,7 +3,7 @@ require 'gosu'
 
 require './lib/levels/level'
 class Robot
-  attr_reader :x, :y,:hp
+  attr_reader :x, :y, :hp, :damage
 
   def initialize(level, x, y)
     @hp = 10
@@ -13,6 +13,7 @@ class Robot
     @level = level
     @dir = :left
     @cur_image = @image
+    @damage = 2
   end
 
   def take_damage (amount)
@@ -40,6 +41,10 @@ class Robot
 
   def is_inside?(x, y)
     x < (@x + OFFS_X * SCALE * 0.5) and x > (@x - OFFS_X * SCALE * 0.5) and y < (@y + OFFS_Y * SCALE) and y > (@y - OFFS_Y * SCALE)
+  end
+
+  def is_close_enough?(x, y)
+    Gosu.distance(@x, @y, x, y) < 10
   end
 
   def update
@@ -96,12 +101,5 @@ class Robot
     if @vy < 0
       (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
     end
-
   end
-
-
-
-
-
-
 end

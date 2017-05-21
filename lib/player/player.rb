@@ -12,6 +12,7 @@ class Player
   attr_reader :x, :y, :health, :boxes_collected
   attr_accessor :state
   def initialize(level, x, y, race)
+    @last_robot_damage = 0
     @jump_slowness = 0
     @last_shot = 0
     @health = 100
@@ -162,6 +163,13 @@ class Player
         else
           @vy = 0
         end }
+    end
+
+    @level.robots.each do |r|
+      if r.is_close_enough?(@x, @y) && Gosu.milliseconds - @last_robot_damage > 500
+        take_damage(r.damage)
+        @last_robot_damage = Gosu.milliseconds
+      end
     end
   end
 
