@@ -23,7 +23,6 @@ class GameWindow < Gosu::Window
     @level = Level.new('./assets/example_map3.txt', WIDTH)
     @character = Player.new(@level, 200, 50, 1)
     @character2 = Player.new(@level, 400, 50, 2)
-
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
     @level.addRobot(260, 300)
@@ -40,13 +39,13 @@ class GameWindow < Gosu::Window
     move_x2 -= 4 if Gosu.button_down? Gosu::KbA
     move_x2 += 4 if Gosu.button_down? Gosu::KbD
     @character.update(move_x)
-    @character.collect_boxes(@level.boxes)
     @character.shoot if Gosu.button_down? Gosu::KbL
     @character2.update(move_x2)
-    @character2.collect_boxes(@level.boxes)
+    @character2.collect_items(@level.items)
+    @character.collect_items(@level.items)
     @character2.shoot if Gosu.button_down? Gosu::KbR
     @level.robots.each { |r| r.update  }
-    @level.boxes.each { |b| b.update }
+    @level.items.each { |i| i.update}
     @level.randomBot
     @level.updateBullets
   end

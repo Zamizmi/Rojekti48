@@ -3,6 +3,7 @@ require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
 require './lib/robot/robot'
+require './lib/item/balloon'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
@@ -15,7 +16,7 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :boxes, :robots
+  attr_reader :width, :height, :robots, :items
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -26,9 +27,10 @@ class Level
 
     @window_width = window_width
     @bullets = []
-    @boxes = []
+    @items = []
     @players =[]
     @robots = []
+    @flying = 0
     @last_bot = 0
     lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
@@ -55,7 +57,12 @@ class Level
 
   def addBox(x, y)
     @box = Box.new(self, x, y)
-    @boxes.push(@box)
+    @items.push(@box)
+  end
+
+  def addBalloon(x, y)
+    @balloon = Balloon.new(self, x, y)
+    @items.push(@balloon)
   end
 
   def addRobot(x, y)
@@ -87,9 +94,9 @@ class Level
       end
     end
     @bullets.each {|bullet| bullet.draw}
-    @boxes.each {|box| box.draw}
+    @robots.each {|robot| robot.draw}
     killer
-    @robots.each {|r| r.draw}
+    @items.each{|i| i.draw}
   end
 
   def would_hit
@@ -115,7 +122,14 @@ class Level
   def killer
       @robots.reject! do |robot|
         if robot.hp<1
-          addBox(robot.x, robot.y)
+          if @flying == 1
+            addBalloon(robot.x, robot.y)
+            @flying = 0
+          else
+            addBox(robot.x, robot.y)
+            @flying = 1
+          end
+
           true
         else
           false

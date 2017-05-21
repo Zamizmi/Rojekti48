@@ -58,6 +58,19 @@ class Player
     end
   end
 
+  def collect_items(items)
+    items.reject! do |item|
+      if item.is_close_enough?(@x, @y)
+        @firespeed += item.firespeed_increase
+        @boxes_collected +=1
+        @upgrade_sample.play
+        true
+      else
+        false
+      end
+    end
+  end
+
   def take_damage (amount)
     @health -= amount if @health > 0
     if @health < 1
