@@ -19,7 +19,7 @@ class Player
     @last_shot = 0
     @health = 100
     @gun = Gun.new(x,y)
-    @firespeed = 10
+    @firespeed = 1
     @x, @y = x, y
     @dir = :left
     @vy = 0 # Vertical velocity
@@ -207,7 +207,7 @@ class Player
 
   def shoot
     return if is_dead?
-    if Gosu.milliseconds - @last_shot < SHOOT_DELAY - @firespeed
+    if Gosu.milliseconds - @last_shot < SHOOT_DELAY - Math.sqrt(@firespeed*200)
       return
     end
     @last_shot = Gosu.milliseconds
