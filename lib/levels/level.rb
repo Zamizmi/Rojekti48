@@ -127,6 +127,12 @@ class Level
           @bullets.delete(b)
         end
       end
+      @items.each do |i|
+        if i.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          @items.delete(i)
+          @bullets.delete(b)
+        end
+      end
       if solid?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
         @bullets.delete(b)
       end
