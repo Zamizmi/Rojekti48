@@ -19,7 +19,7 @@ end
 # Map class holds and draws tiles and gems.
 class Level
 
-  attr_reader :width, :height, :items, :robots, :start_points, :explosions
+  attr_reader :width, :height, :items, :robots, :start_points, :explosions, :players
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.

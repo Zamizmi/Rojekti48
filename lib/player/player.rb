@@ -9,7 +9,7 @@ OFFS_Y = 55
 SHOOT_DELAY = 500
 
 class Player
-  attr_reader :x, :y, :health, :boxes_collected
+  attr_reader :x, :y, :health, :boxes_collected, :timeofdeath, :race
   attr_accessor :state
   def initialize(level, x, y, race)
 
@@ -68,6 +68,7 @@ class Player
       @dead = true
       @cur_image = @die
       @health = 0
+      @timeofdeath = Gosu.milliseconds
     end
   end
 

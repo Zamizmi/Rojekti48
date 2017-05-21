@@ -52,6 +52,7 @@ class GameWindow < Gosu::Window
     @level.explosions.each { |e| e.update}
     @level.randomBot
     @level.updateBullets
+    checkDeaths
   end
 
   def draw
@@ -75,6 +76,29 @@ class GameWindow < Gosu::Window
         super
     end
   end
+
+
+  def checkWinner
+    @level.players.each do |p|
+      if p.hp>0
+        return p.race
+    end
+  end
+end
+
+  def checkDeaths
+      @level.players.each do |p|
+        if p.is_dead?
+          if Gosu.milliseconds - p.timeofdeath> 1500
+          ##endGame
+          end
+        end
+      end
+  end
+
+  ##def endGame
+
+##  end
 
   def play_music(filepath)
     @music = Gosu::Song.new(filepath)
