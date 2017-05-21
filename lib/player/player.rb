@@ -104,11 +104,27 @@ class Player
     # Directional walking, horizontal movement
     if move_x > 0
       @dir = :right
-      move_x.times { if would_fit(1, 0) then @x += 1 end }
+      move_x.times {
+        if would_fit(1, 0)
+        then
+          @x += 1
+        else
+          if @x+20 > WIDTH && would_fit(-1*WIDTH + 20, 0)
+            @x = 1
+          end
+        end }
     end
     if move_x < 0
       @dir = :left
-      (-move_x).times { if would_fit(-1, 0) then @x -= 1 end }
+      (-move_x).times {
+        if would_fit(-1, 0)
+        then
+          @x -= 1
+        else
+          if @x-20 < 0 && would_fit(WIDTH - 20, 0)
+            @x = WIDTH-20
+          end
+        end }
     end
 
     if @jump_slowness < 1
@@ -117,19 +133,35 @@ class Player
       # Acceleration/gravity
       # By adding 1 each frame, and (ideally) adding vy to y, the player's
       # jumping curve will be the parabole we want it to be.
-      @vy += 1
+      @vy += 1 if @vy < 20
       if (@race == 1 and not Gosu.button_down? Gosu::KB_UP) or (@race == 2 and not Gosu.button_down? Gosu::KB_W)
-        @vy += 1
+        @vy += 1 if @vy < 20
       end
 
       @jump_slowness = 0
     end
     # Vertical movement
     if @vy > 0
-      @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
+      @vy.times {
+        if would_fit(0, 1)
+        then
+          @y += 1
+        else
+          if @y+20 > HEIGHT && would_fit(0, -1*HEIGHT + 30)
+            @y = 30
+          else
+            @vy = 0
+          end
+        end }
     end
     if @vy < 0
-      (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
+      (-@vy).times {
+        if would_fit(0, -1)
+        then
+          @y -= 1
+        else
+          @vy = 0
+        end }
     end
   end
 

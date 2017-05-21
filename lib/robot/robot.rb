@@ -48,20 +48,50 @@ class Robot
     # Directional automated walking, horizontal movement
     if @dir == :right
 
-      move_x.times { if would_fit(13, 0) then @x += 1 else @dir = :left end }
+      move_x.times {
+        if would_fit(13, 0)
+        then
+          @x += 1
+        else
+          if @x+30 > WIDTH && would_fit(-1*WIDTH + 30, 0)
+            @x = 10
+          else
+            @dir = :left
+          end
+        end }
     end
 
     if @dir == :left
-      (move_x).times { if would_fit(-10, 0) then @x -= 1 else @dir = :right end }
+      (move_x).times {
+        if would_fit(-10, 0)
+        then
+          @x -= 1
+        else
+          if @x-10 < 0 && would_fit(WIDTH - 30, 0)
+            @x = WIDTH-10
+          else
+            @dir = :right
+          end
+        end }
     end
 
     # Acceleration/gravity
     # By adding 1 each frame, and (ideally) adding vy to y, the player's
     # jumping curve will be the parabole we want it to be.
-    @vy += 1
+    @vy += 1 if @vy < 20
     # Vertical movement
     if @vy > 0
-      @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
+      @vy.times {
+        if would_fit(0, 1)
+        then
+          @y += 1
+        else
+          if @y+20 > HEIGHT && would_fit(0, -1*HEIGHT + 30)
+            @y = 30
+          else
+            @vy = 0
+          end
+        end }
     end
     if @vy < 0
       (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
