@@ -34,6 +34,7 @@ class GameWindow < Gosu::Window
     @battle_theme = Gosu::Song.new('./assets/audio/battleMusic.mp3')
     @battle_theme.volume = 0.4
     @battle_theme.play(looping = true)
+    @end_voice = Gosu::Sample.new('./assets/audio/roundEnd.wav')
   end
 
   def update
@@ -101,6 +102,7 @@ end
   end
 
   def endGame
+    @end_voice.play(2,1,false)
     @handler.end_game
     close
   end
