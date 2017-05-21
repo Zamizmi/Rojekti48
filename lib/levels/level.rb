@@ -25,7 +25,7 @@ class Level
     # Load 60x60 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles('./assets/platform.png', 60, 60, :tileable => true)
 
-
+    @pop_sample = Gosu::Sample.new('./assets/audio/balloonPop.wav')
     @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
     @window_width = window_width
     @bullets = []
@@ -131,6 +131,7 @@ class Level
       @items.each do |i|
         if i.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
           @items.delete(i)
+          @pop_sample.play(volume = 2)
           @bullets.delete(b)
         end
       end
