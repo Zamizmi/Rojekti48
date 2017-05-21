@@ -35,7 +35,6 @@ attr_accessor :winner
     @pics << @pic5
     @background_music.play(looping = true)
     @window = ""
-    #@winner = ""
   end
 
   def draw
@@ -62,8 +61,8 @@ attr_accessor :winner
 
   def end_game
     @window = Menu.new
-    close
     @window.show
+    close
   end
 
   def button_down(id)
