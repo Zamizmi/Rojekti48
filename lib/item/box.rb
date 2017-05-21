@@ -22,6 +22,11 @@ class Box
     Gosu.distance(@x, @y, x, y) < 20
   end
 
+
+  def is_inside?(x, y)
+    false
+  end
+
   def would_fit(offs_x, offs_y)
     # Check at the center/top and center/bottom for map collisions
     not @level.solid?(@x + offs_x, @y + offs_y)

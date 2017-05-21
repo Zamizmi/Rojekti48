@@ -27,6 +27,10 @@ class Balloon
     Gosu.distance(@x, @y + 20, x, y) < 20
   end
 
+  def is_inside?(x, y)
+    x < (@x + 20) and x > (@x) and y < (@y + 10) and y > (@y - 10)
+  end
+
   def update
     # Vertical movement
     @level.items.delete(self) if @y<5
