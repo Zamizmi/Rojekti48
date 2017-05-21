@@ -29,7 +29,7 @@ class Player
     @dead = false
     @jump_sample = Gosu::Sample.new('./assets/audio/jump.wav')
     @upgrade_sample = Gosu::Sample.new('./assets/audio/upgrade.wav')
-
+    @robot_hit_sample = Gosu::Sample.new('./assets/audio/robotDamage.wav')
     @shot_sample = Gosu::Sample.new('./assets/audio/shot.wav')
 
     if(race == 1)
@@ -190,6 +190,7 @@ class Player
       if r.is_close_enough?(@x, @y) && Gosu.milliseconds - @last_robot_damage > 500
         take_damage(r.damage)
         @last_robot_damage = Gosu.milliseconds
+        @robot_hit_sample.play
       end
     end
   end
