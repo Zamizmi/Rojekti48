@@ -14,14 +14,14 @@ module ZOrder
 end
 
 class GameWindow < Gosu::Window
-  def initialize(width=WIDTH, height=HEIGHT)
+  def initialize(map_path, width=WIDTH, height=HEIGHT)
 
     super WIDTH, HEIGHT, fullscreen = true
 
     self.caption = "MoreGun"
 
     @background = Gosu::Image.new('./assets/spookyWoods.png', :tileable => true)
-    @level = Level.new('./assets/dropMap.txt', WIDTH)
+    @level = Level.new(map_path, WIDTH)
     spawn1 = @level.getRandomStart
     spawn2 = @level.getRandomStart
     @character = Player.new(@level, spawn1[0], spawn1[1], 1)
