@@ -48,19 +48,6 @@ class Player
     x < (@x + OFFS_X * SCALE * 0.5) and x > (@x - OFFS_X * SCALE * 0.5) and y < (@y + OFFS_Y * SCALE) and y > (@y - OFFS_Y * SCALE)
   end
 
-  def collect_boxes(boxes)
-      boxes.reject! do |box|
-        if Gosu.distance(@x, @y, box.x, box.y) < 20
-          @firespeed += box.firespeed_increase
-          @boxes_collected +=1
-          @upgrade_sample.play
-          true
-        else
-          false
-      end
-    end
-  end
-
   def collect_items(items)
     items.reject! do |item|
       if item.is_close_enough?(@x, @y)
@@ -80,6 +67,7 @@ class Player
     if @health < 1
       @dead = true
       @cur_image = @die
+      @health = 0
     end
   end
 
@@ -136,6 +124,7 @@ class Player
           end
         end }
     end
+
     if move_x < 0
       @dir = :left
       (-move_x).times {

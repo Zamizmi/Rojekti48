@@ -10,6 +10,7 @@ class Balloon
     @firespeed_increase = 20
     @vy = 1
     @level = level
+    @spawn_time = Gosu.milliseconds
   end
 
   def draw
@@ -28,7 +29,7 @@ class Balloon
   end
 
   def is_inside?(x, y)
-    x < (@x + 20) and x > (@x) and y < (@y + 10) and y > (@y - 10)
+    x < (@x + 20) and x > (@x) and y < (@y + 10) and y > (@y - 10) and (Gosu.milliseconds - @spawn_time > 500)
   end
 
   def update
