@@ -18,6 +18,7 @@ class Menu < Gosu::Window
     @font = Gosu::Font.new(30)
     @text = "Welcome to MoreGun game! Choose map by pressing 'Q' 'W' 'E' 'R' or 'T'."
     @menu = self
+    @background_music = Gosu::Song.new('./assets/audio/menuTheme.mp3')
     @pics = Array.new
     @pic1 = Gosu::Image.new('./assets/level_images/dropMap-Drop_Zone.png', :tileable => true)
     @pics << @pic1
@@ -29,6 +30,7 @@ class Menu < Gosu::Window
     @pics << @pic4
     @pic5 = Gosu::Image.new('./assets/level_images/example_map4-Barren_area.png', :tileable => true)
     @pics << @pic5
+    @background_music.play(looping = true)
   end
 
   def draw
@@ -48,6 +50,7 @@ class Menu < Gosu::Window
   end
 
   def start
+    @background_music.stop
     window = GameWindow.new(@map_path)
     window.show# if __FILE__ == $0
   end
