@@ -5,7 +5,7 @@ class Balloon
   attr_reader :x, :y, :firespeed_increase
 
   def initialize(level, x, y)
-    @image = Gosu::Image.new('./assets/box.png')
+    @image = Gosu::Image.new('./assets/balloon.png')
     @x, @y = x, y
     @firespeed_increase = 20
     @vy = 1

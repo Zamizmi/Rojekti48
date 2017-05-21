@@ -24,7 +24,6 @@ class Level
     # Load 60x60 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles('./assets/platform.png', 60, 60, :tileable => true)
 
-    box_img = Gosu::Image.new('./assets/box.png')
 
     @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
     @window_width = window_width
