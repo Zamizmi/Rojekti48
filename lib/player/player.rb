@@ -17,7 +17,7 @@ class Player
     @last_damage_taken = 0
     @jump_slowness = 0
     @last_shot = 0
-    @health = 10
+    @health = 100
     @gun = Gun.new(x,y)
     @firespeed = 1
     @x, @y = x, y
