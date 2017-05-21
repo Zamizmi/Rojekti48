@@ -4,6 +4,7 @@ require './lib/item/box'
 require './lib/bullet/bullet'
 require './lib/robot/robot'
 require './lib/item/balloon'
+require './lib/explosion/explosion'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
@@ -16,7 +17,8 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :robots, :items
+
+  attr_reader :width, :height, :items, :robots, :start_points, :explosions
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -24,14 +26,16 @@ class Level
 
     box_img = Gosu::Image.new('./assets/box.png')
 
-
+    @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
     @window_width = window_width
     @bullets = []
     @items = []
     @players =[]
     @robots = []
     @flying = 0
+    @explosions = []
     @last_bot = 0
+    @start_points = []
     lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
     @width = lines[0].size
@@ -43,12 +47,15 @@ class Level
           when '#'
             Tiles::Earth
           when 'x'
+            @start_points.push([x*(LEVEL_SCALE*60)+LEVEL_SCALE*60*0.5, y*(LEVEL_SCALE*60)+LEVEL_SCALE*60*0.5])
             nil
           else
             nil
         end
       end
     end
+    raise "Map needs atleast 2 spawn locations marked with \"x\"!" if @start_points.length <2
+    @start_points.shuffle!
   end
 
   def addPlayer(player)
@@ -68,6 +75,11 @@ class Level
   def addRobot(x, y)
     @robot = Robot.new(self, x, y)
     @robots.push(@robot)
+  end
+
+  def addExplosion(x,y)
+    @explosion = Explosion.new(self,x,y)
+    @explosions.push(@explosion)
   end
 
   def addBullet(x, y, dir, spread=0)
@@ -97,6 +109,9 @@ class Level
     @robots.each {|robot| robot.draw}
     killer
     @items.each{|i| i.draw}
+    @robots.each {|r| r.draw}
+    explosionKiller
+    @explosions.each { |e| e.draw}
   end
 
   def would_hit
@@ -119,6 +134,16 @@ class Level
     end
   end
 
+  def explosionKiller
+      @explosions.reject! do |e|
+        if Gosu.milliseconds - e.birth>299
+          true
+        else
+          false
+      end
+    end
+  end
+
   def killer
       @robots.reject! do |robot|
         if robot.hp<1
@@ -129,7 +154,8 @@ class Level
             addBox(robot.x, robot.y)
             @flying = 1
           end
-
+          addExplosion(robot.x, robot.y)
+          @explosion_sample.play(volume = 0.5)
           true
         else
           false
@@ -163,6 +189,6 @@ class Level
   end
 
   def getRandomStart()
-    #TODO
+    @start_points.pop
   end
 end

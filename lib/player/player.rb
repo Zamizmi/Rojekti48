@@ -12,6 +12,7 @@ class Player
   attr_reader :x, :y, :health, :boxes_collected
   attr_accessor :state
   def initialize(level, x, y, race)
+    @last_robot_damage = 0
     @jump_slowness = 0
     @last_shot = 0
     @health = 100
@@ -117,11 +118,27 @@ class Player
     # Directional walking, horizontal movement
     if move_x > 0
       @dir = :right
-      move_x.times { if would_fit(1, 0) then @x += 1 end }
+      move_x.times {
+        if would_fit(1, 0)
+        then
+          @x += 1
+        else
+          if @x+20 > WIDTH && would_fit(-1*WIDTH + 20, 0)
+            @x = 1
+          end
+        end }
     end
     if move_x < 0
       @dir = :left
-      (-move_x).times { if would_fit(-1, 0) then @x -= 1 end }
+      (-move_x).times {
+        if would_fit(-1, 0)
+        then
+          @x -= 1
+        else
+          if @x-20 < 0 && would_fit(WIDTH - 20, 0)
+            @x = WIDTH-20
+          end
+        end }
     end
 
     if @jump_slowness < 1
@@ -130,19 +147,42 @@ class Player
       # Acceleration/gravity
       # By adding 1 each frame, and (ideally) adding vy to y, the player's
       # jumping curve will be the parabole we want it to be.
-      @vy += 1
+      @vy += 1 if @vy < 20
       if (@race == 1 and not Gosu.button_down? Gosu::KB_UP) or (@race == 2 and not Gosu.button_down? Gosu::KB_W)
-        @vy += 1
+        @vy += 1 if @vy < 20
       end
 
       @jump_slowness = 0
     end
     # Vertical movement
     if @vy > 0
-      @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
+      @vy.times {
+        if would_fit(0, 1)
+        then
+          @y += 1
+        else
+          if @y+20 > HEIGHT && would_fit(0, -1*HEIGHT + 30)
+            @y = 30
+          else
+            @vy = 0
+          end
+        end }
     end
     if @vy < 0
-      (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
+      (-@vy).times {
+        if would_fit(0, -1)
+        then
+          @y -= 1
+        else
+          @vy = 0
+        end }
+    end
+
+    @level.robots.each do |r|
+      if r.is_close_enough?(@x, @y) && Gosu.milliseconds - @last_robot_damage > 500
+        take_damage(r.damage)
+        @last_robot_damage = Gosu.milliseconds
+      end
     end
   end
 
@@ -169,10 +209,13 @@ class Player
     end
 
     @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir)
-    @shot_sample.play
+    if @boxes_collected <= 9
+      @shot_sample.play
+    end
     if @boxes_collected > 9
       @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, -1)
       @level.addBullet(@x+offs_x, @y - OFFS_Y*SCALE/2, @dir, 1)
+      @shot_sample.play(volume = 0.6)
     end
 
   end
