@@ -14,6 +14,7 @@ class Menu < Gosu::Window
     self.caption = "MoreGun Menu"
     @background = Gosu::Image.new('./assets/spookyWoods.png', :tileable => true)
     @map_path = ""
+    @self = self
 
     @font = Gosu::Font.new(30)
     @text = "Welcome to MoreGun game! Choose map by pressing 'Z' 'X' 'C' 'V' or 'B'."
@@ -52,14 +53,16 @@ class Menu < Gosu::Window
 
   def start
     @background_music.stop
-    @window = GameWindow.new(@map_path, self)
+    @window = GameWindow.new(@map_path, @self)
     @window.show
   end
 
   def end_game
-    @background = Gosu::Image.new('./assets/space-png',:tileable => true)
-    @text = "#{@window.checkWinner.to_s} is the winner!"
-    
+    #puts "jahas"
+    #ruby moreGun.rb
+    #@background = Gosu::Image.new('./assets/space.png',:tileable => true)
+    #@text = "#{@window.checkWinner.to_s} is the winner!"
+    #close
   end
 
   def button_down(id)

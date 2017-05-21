@@ -92,7 +92,7 @@ end
       @level.players.each do |p|
         if p.is_dead?
           if Gosu.milliseconds - p.timeofdeath> 1500
-          ##endGame
+          endGame
           end
         end
       end
