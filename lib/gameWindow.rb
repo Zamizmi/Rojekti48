@@ -29,8 +29,6 @@ class GameWindow < Gosu::Window
 
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
-    @level.addRobot(260, 300)
-    @level.addExplosion(300,300)
     @font = Gosu::Font.new(20)
 		self.play_music('./assets/audio/battleMusic.mp3')
 
