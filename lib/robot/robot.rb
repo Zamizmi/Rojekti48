@@ -6,14 +6,14 @@ class Robot
   attr_reader :x, :y, :hp, :damage
 
   def initialize(level, x, y)
-    @hp = 10
+    @hp = 14
     @x, @y = x, y
     @image = Gosu::Image.new("assets/robot.png")
     @vy = 0 # Vertical velocity
     @level = level
     @dir = :left
     @cur_image = @image
-    @damage = 2
+    @damage = 5
   end
 
   def take_damage (amount)
