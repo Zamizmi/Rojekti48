@@ -12,7 +12,9 @@ class Player
   attr_reader :x, :y, :health, :boxes_collected
   attr_accessor :state
   def initialize(level, x, y, race)
+
     @last_robot_damage = 0
+    @last_damage_taken = 0
     @jump_slowness = 0
     @last_shot = 0
     @health = 100
@@ -61,6 +63,7 @@ class Player
 
   def take_damage (amount)
     @health -= amount if @health > 0
+    @last_damage_taken = Gosu.milliseconds if @health > 0
     if @health < 1
       @dead = true
       @cur_image = @die
@@ -80,7 +83,12 @@ class Player
       offs_x = OFFS_X*(SCALE)
       factor = -1*SCALE
     end
-    @cur_image.draw(@x + offs_x, @y - (OFFS_Y*SCALE), 0, factor, SCALE)
+    if Gosu.milliseconds - @last_damage_taken < 250
+      filter = 0xff_ff0000
+    else
+      filter = 0xff_ffffff
+    end
+    @cur_image.draw(@x + offs_x, @y - (OFFS_Y*SCALE), 0, factor, SCALE, filter)
   end
 
   # Could the object be placed at x + offs_x/y + offs_y without being stuck?
