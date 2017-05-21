@@ -30,8 +30,8 @@ class GameWindow < Gosu::Window
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
     @font = Gosu::Font.new(20)
-		self.play_music('./assets/audio/battleMusic.mp3')
-
+    @battle_theme = Gosu::Song.new('./assets/audio/battleMusic.mp3')
+    @battle_theme.play(looping = true)
   end
 
   def update
@@ -71,6 +71,7 @@ class GameWindow < Gosu::Window
       when Gosu::KbW
         @character2.try_to_jump
       when Gosu::KB_ESCAPE
+        @battle_theme.stop
         close
       else
         super
