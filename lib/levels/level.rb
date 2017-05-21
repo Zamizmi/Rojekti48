@@ -5,6 +5,7 @@ require './lib/bullet/bullet'
 require './lib/robot/robot'
 require './lib/item/balloon'
 require './lib/explosion/explosion'
+require './lib/player/player'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
@@ -26,7 +27,7 @@ class Level
     # Load 60x60 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles('./assets/tileset.png', 60, 60, :tileable => true)
 
-
+    @pop_sample = Gosu::Sample.new('./assets/audio/balloonPop.wav')
     @explosion_sample = Gosu::Sample.new('./assets/audio/explosion.wav')
     @window_width = window_width
     @bullets = []
@@ -140,6 +141,7 @@ class Level
       @items.each do |i|
         if i.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
           @items.delete(i)
+          @pop_sample.play(volume = 2)
           @bullets.delete(b)
         end
       end
@@ -188,6 +190,11 @@ class Level
     end
     x=rand(30...1300)
     y=rand(30...700)
+    @players.each do |p|
+      if Gosu.distance(x,y,p.x,p.y) <45
+        return
+      end
+    end
     unless solid?(x,y) || solid?(x+16,y) || solid?(x-16,y) || solid?(x,y-16) || solid?(x,y+16) || solid?(x,y-30)
       addRobot(x, y)
       @last_bot = Gosu.milliseconds
