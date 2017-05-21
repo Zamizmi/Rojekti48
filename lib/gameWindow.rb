@@ -84,7 +84,7 @@ class GameWindow < Gosu::Window
   def checkWinner
     @level.players.each do |p|
       if p.hp>0
-        return p.race
+        @handler.winner = p.race.to_s
     end
   end
 end
@@ -93,7 +93,8 @@ end
       @level.players.each do |p|
         if p.is_dead?
           if Gosu.milliseconds - p.timeofdeath> 1500
-          endGame
+            endGame
+            #hide
           end
         end
       end
@@ -101,6 +102,7 @@ end
 
   def endGame
     @handler.end_game
+    close
   end
 
   def play_music(filepath)

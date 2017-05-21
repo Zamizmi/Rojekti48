@@ -9,13 +9,15 @@ class Menu < Gosu::Window
     BACKGROUND, STARS, PLAYER, UI = *0..3
   end
 
+attr_accessor :winner
+
   def initialize
     super WIDTH, HEIGHT, fullscreen = true
     self.caption = "MoreGun Menu"
     @background = Gosu::Image.new('./assets/spookyWoods.png', :tileable => true)
     @map_path = ""
     @self = self
-
+    @text =""
     @font = Gosu::Font.new(30)
     @text = "Welcome to MoreGun game! Choose map by pressing 'Z' 'X' 'C' 'V' or 'B'."
     @menu = self
@@ -33,6 +35,7 @@ class Menu < Gosu::Window
     @pics << @pic5
     @background_music.play(looping = true)
     @window = ""
+    #@winner = ""
   end
 
   def draw
@@ -58,11 +61,9 @@ class Menu < Gosu::Window
   end
 
   def end_game
-    #puts "jahas"
-    #ruby moreGun.rb
-    #@background = Gosu::Image.new('./assets/space.png',:tileable => true)
-    #@text = "#{@window.checkWinner.to_s} is the winner!"
-    #close
+    @window = Menu.new
+    close
+    @window.show
   end
 
   def button_down(id)
