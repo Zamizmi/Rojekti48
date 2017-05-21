@@ -3,6 +3,7 @@ require 'gosu'
 require './lib/item/box'
 require './lib/bullet/bullet'
 require './lib/robot/robot'
+require './lib/explosion/explosion'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
@@ -15,7 +16,7 @@ end
 
 # Map class holds and draws tiles and gems.
 class Level
-  attr_reader :width, :height, :boxes, :robots
+  attr_accessor :width, :height, :boxes, :robots, :explosions
 
   def initialize(filename, window_width)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -29,6 +30,7 @@ class Level
     @boxes = []
     @players =[]
     @robots = []
+    @explosions = []
     @last_bot = 0
     lines = File.readlines(filename).map {|line| line.chomp}
     @height = lines.size
@@ -63,6 +65,11 @@ class Level
     @robots.push(@robot)
   end
 
+  def addExplosion(x,y)
+    @explosion = Explosion.new(self,x,y)
+    @explosions.push(@explosion)
+  end
+
   def addBullet(x, y, dir, spread=0)
     bullet = Bullet.new(x, y, dir, self, spread)
     @bullets.push(bullet)
@@ -90,6 +97,8 @@ class Level
     @boxes.each {|box| box.draw}
     killer
     @robots.each {|r| r.draw}
+    explosionKiller
+    @explosions.each { |e| e.draw}
   end
 
   def would_hit
@@ -112,10 +121,21 @@ class Level
     end
   end
 
+  def explosionKiller
+      @explosions.reject! do |e|
+        if Gosu.milliseconds - e.birth>299
+          true
+        else
+          false
+      end
+    end
+  end
+
   def killer
       @robots.reject! do |robot|
         if robot.hp<1
           addBox(robot.x, robot.y)
+          addExplosion(robot.x, robot.y)
           @explosion_sample.play(volume = 0.5)
           true
         else
