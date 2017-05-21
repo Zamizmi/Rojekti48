@@ -8,7 +8,7 @@ require './lib/explosion/explosion'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
-BOT_DELAY = 800
+BOT_DELAY = 6000
 
 module Tiles
   Grass = 0
@@ -127,6 +127,12 @@ class Level
           @bullets.delete(b)
         end
       end
+      @items.each do |i|
+        if i.is_inside?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
+          @items.delete(i)
+          @bullets.delete(b)
+        end
+      end
       if solid?(b.instance_variable_get(:@x), b.instance_variable_get(:@y))
         @bullets.delete(b)
       end
@@ -167,7 +173,7 @@ class Level
     if Gosu.milliseconds - @last_bot < BOT_DELAY
       return
     end
-    if robots.size>14
+    if robots.size>8
     return
     end
     x=rand(30...1300)

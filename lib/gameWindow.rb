@@ -21,7 +21,7 @@ class GameWindow < Gosu::Window
     self.caption = "MoreGun"
 
     @background = Gosu::Image.new('./assets/spookyWoods.png', :tileable => true)
-    @level = Level.new('./assets/example_map3.txt', WIDTH)
+    @level = Level.new('./assets/dropMap.txt', WIDTH)
     spawn1 = @level.getRandomStart
     spawn2 = @level.getRandomStart
     @character = Player.new(@level, spawn1[0], spawn1[1], 1)
@@ -29,8 +29,6 @@ class GameWindow < Gosu::Window
 
     @level.addPlayer(@character)
     @level.addPlayer(@character2)
-    @level.addRobot(260, 300)
-    @level.addExplosion(300,300)
     @font = Gosu::Font.new(20)
 		self.play_music('./assets/audio/battleMusic.mp3')
 
