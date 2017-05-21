@@ -5,6 +5,7 @@ require './lib/bullet/bullet'
 require './lib/robot/robot'
 require './lib/item/balloon'
 require './lib/explosion/explosion'
+require './lib/player/player'
 
 LEVEL_SCALE = 0.75
 TILE_SIZE = 0.75
@@ -172,6 +173,11 @@ class Level
     end
     x=rand(30...1300)
     y=rand(30...700)
+    @players.each do |p|
+      if Gosu.distance(x,y,p.x,p.y) <45
+        return
+      end
+    end
     unless solid?(x,y) || solid?(x+16,y) || solid?(x-16,y) || solid?(x,y-16) || solid?(x,y+16) || solid?(x,y-30)
       addRobot(x, y)
       @last_bot = Gosu.milliseconds
